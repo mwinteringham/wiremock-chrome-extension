@@ -12,9 +12,13 @@
   </head>
   <body>
     <h1>Wiremock extension</h1>
-    <input type='text' name='requestPath' />
+    <input type='text' name='requestPath' id='requestPath'/>
+    <select name='requestType' id='requestType'>
+      <option value='PATH'>path</option>
+      <option value='REGEX'>regex</option>
+      <option value='PARTIAL'>partial</option>
+    </select>
 
     <input type="button" id="makeRequest" value="Create" />
-    <span id="result"></span>
   </body>
 </html>

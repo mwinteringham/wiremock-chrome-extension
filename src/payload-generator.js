@@ -1,9 +1,19 @@
-var buildPayload = function(path, callback){
+var buildPayload = function(path, pathType, callback){
   payload = {
     "request": {},
   };
 
-  payload.request.url = path;
+  switch(pathType){
+    case 'PATH':
+      payload.request.url = path;
+      break;
+    case 'REGEX':
+      payload.request.urlPattern = path;
+      break;
+    case 'PARTIAL':
+      payload.request.urlPath = path;
+      break;
+  }
 
   callback(payload);
 }

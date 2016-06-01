@@ -19,6 +19,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "jsdom": "^9.2.1",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "nock": "^8.0.0"
   }
 }
