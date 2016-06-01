@@ -1,6 +1,6 @@
-var chai = require('chai'),
-    jsdom = require('jsdom'),
-    path = require('path'),
+var chai   = require('chai'),
+    jsdom  = require('jsdom'),
+    path   = require('path'),
     expect = chai.expect;
 
 var buildDom = function(callback){
@@ -28,6 +28,21 @@ describe('Wiremock chrome extension', function(){
 
         done();
       })
+  });
+
+  it('should have a frame size of 485x675px', function(done){
+    buildDom(function(dom){
+      expect(dom.$('body').height()).to.equal(675);
+      expect(dom.$('body').width()).to.equal(485);
+      done();
+    })
+  });
+
+  it('should have a input box for entering paths', function(done){
+    buildDom(function(dom){
+      expect(dom.$('input[name="requestPath"]').length).to.equal(1);
+      done();
+    })
   });
 
 });

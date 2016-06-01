@@ -2,11 +2,18 @@
 <html>
   <head>
     <script src="payload-generator.js"></script>
+    <style>
+      html, body {
+        height: 675px;
+        width: 485px;
+      }
+    </style>
   </head>
   <body>
     <h1>Wiremock extension</h1>
+    <input type='text' name='requestPath' />
 
     <input type="button" id="makeRequest" value="Create" />
-    <span id="result">hello</span>
+    <span id="result"></span>
   </body>
 </html>

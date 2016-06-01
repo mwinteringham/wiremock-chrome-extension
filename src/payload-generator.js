@@ -8,7 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function foo( suffix ) {
+var postToMappingsNew = function(payload){
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://localhost:8080/__admin/mappings/new', true);
+  xhr.setRequestHeader("Content-Type","application/json");
+  xhr.send(JSON.stringify(payload));
 
-    return 'cake';
+  xhr.onreadystatechange = function(){
+    var result = document.getElementById('result')
+    result.innerHTML = xhr.status,
+
+    setTimeout(function(){
+        result.innerHTML = '';
+    }, 3000);
+  }
 }
