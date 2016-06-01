@@ -1,0 +1,24 @@
+{
+  "name": "wiremock-chrome-extension",
+  "version": "0.0.1",
+  "description": "A simple chrome extension for Wiremock",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mwinteringham/wiremock-chrome-extension.git"
+  },
+  "author": "Mark Winteringham",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mwinteringham/wiremock-chrome-extension/issues"
+  },
+  "homepage": "https://github.com/mwinteringham/wiremock-chrome-extension#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "jsdom": "^9.2.1",
+    "mocha": "^2.5.3"
+  }
+}

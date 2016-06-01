@@ -1,0 +1,16 @@
+{
+    "manifest_version": 2,
+    "name": "Wiremock extension",
+    "description": "Chrome extension for programming Wiremock",
+    "homepage_url": "https://github.com/mwinteringham/wiremock-chrome-extension",
+    "version": "0.0.1",
+    "browser_action": {
+        "default_title": "Click here!",
+        "default_popup": "index.html"
+    },
+    "permissions": [
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ]
+}
