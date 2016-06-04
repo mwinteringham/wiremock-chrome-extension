@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
   <head>
+    <script src="jquery.js"></script>
     <script src="payload-generator.js"></script>
     <script src="payload-request.js"></script>
     <style>
@@ -12,30 +13,47 @@
   </head>
   <body>
     <h1>Wiremock extension</h1>
-    <input type='text' id='requestPath'/>
-    <select id='requestType'>
-      <option value='PATH'>path</option>
-      <option value='REGEX'>regex</option>
-      <option value='PARTIAL'>partial</option>
+    <input type="text" id="requestPath"/>
+    <select id="requestType">
+      <option value="PATH">path</option>
+      <option value="REGEX">regex</option>
+      <option value="PARTIAL">partial</option>
     </select>
 
-    <select id='requestMethod'>
-      <option value='GET'>GET</option>
-      <option value='POST'>POST</option>
-      <option value='PUT'>PUT</option>
-      <option value='PATCH'>PATCH</option>
-      <option value='DELETE'>DELETE</option>
-      <option value='COPY'>COPY</option>
-      <option value='HEAD'>HEAD</option>
-      <option value='OPTIONS'>OPTIONS</option>
-      <option value='LINK'>LINK</option>
-      <option value='UNLINK'>UNLINK</option>
-      <option value='PURGE'>PURGE</option>
-      <option value='LOCK'>LOCK</option>
-      <option value='UNLOCK'>UNLOCK</option>
-      <option value='PROPFIND'>PROPFIND</option>
-      <option value='VIEW'>VIEW</option>
+    <select id="requestMethod">
+      <option value="GET">GET</option>
+      <option value="POST">POST</option>
+      <option value="PUT">PUT</option>
+      <option value="PATCH">PATCH</option>
+      <option value="DELETE">DELETE</option>
+      <option value="COPY">COPY</option>
+      <option value="HEAD">HEAD</option>
+      <option value="OPTIONS">OPTIONS</option>
+      <option value="LINK">LINK</option>
+      <option value="UNLINK">UNLINK</option>
+      <option value="PURGE">PURGE</option>
+      <option value="LOCK">LOCK</option>
+      <option value="UNLOCK">UNLOCK</option>
+      <option value="PROPFIND">PROPFIND</option>
+      <option value="VIEW">VIEW</option>
     </select>
+
+    <br />
+
+    <ul id="requestHeaders">
+      <li class="headerMatcher" id="blankRequestHeader">
+        <input type="text" class="key" />
+        <select class="matcher">
+          <option>equalTo</option>
+          <option>matches</option>
+          <option>doesNotMatch</option>
+          <option>contains</option>
+        </select>
+        <input type="text" class="value" />
+      </li>
+    </ul>
+
+    <br />
 
     <input type="button" id="makeRequest" value="Create" />
   </body>
