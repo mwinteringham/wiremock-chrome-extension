@@ -83,12 +83,25 @@ describe('Wiremock integration check', function(){
     dom.$('#requestPath').val('/path/test/1');
     dom.$('#requestType').val('PATH');
     dom.$('#requestMethod').val('POST');
+
+    dom.$('.headerMatcher .key').val('key1');
+    dom.$('.headerMatcher .matcher').val('equalTo');
+    dom.$('.headerMatcher .value').val('value1');
+
+    dom.$('#requestHeaders #blankRequestHeader .key').focus();
+
+    dom.$('.headerMatcher .key').eq(1).val('key2');
+    dom.$('.headerMatcher .matcher').eq(1).val('matches');
+    dom.$('.headerMatcher .value').eq(1).val('value2');
+
     dom.$('#makeRequest').click();
 
     nock('http://localhost:8080')
       .post('/__admin/mappings/new',function(body){
         expect(body.request.url).to.equal('/path/test/1');
         expect(body.request.method).to.equal('POST');
+        expect(body.request.headers['key1']['equalTo']).to.equal('value1');
+        expect(body.request.headers['key2']['matches']).to.equal('value2');
         done();
       })
       .reply(201);
