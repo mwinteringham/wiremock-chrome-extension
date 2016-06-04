@@ -27,29 +27,37 @@ describe('Wiremock pop view', function(){
   });
 
   it('should have a input box for entering paths', function(done){
-    expect(dom.$('input[name="requestPath"]').length).to.equal(1);
+    expect(dom.$('#requestPath').length).to.equal(1);
 
     done();
   });
 
   it('should have a dropdown to select path type', function(done){
-    expect(dom.$('select[name="requestType"]').length).to.equal(1);
+    expect(dom.$('#requestType').length).to.equal(1);
 
     done();
   });
+
+  it('should have', function(done){
+    expect(dom.$('#requestMethod').length).to.equal(1);
+
+    done();
+  })
 
 });
 
 describe('Wiremock integration check', function(){
 
   it('should be able to submit a simple GET request', function(done){
-    dom.$('input[name="requestPath"]').val('/path/test/1');
-    dom.$('select[name="requestType"]').val('PATH');
+    dom.$('#requestPath').val('/path/test/1');
+    dom.$('#requestType').val('PATH');
+    dom.$('#requestMethod').val('POST');
     dom.$('#makeRequest').click();
 
     nock('http://localhost:8080')
       .post('/__admin/mappings/new',function(body){
         expect(body.request.url).to.equal('/path/test/1');
+        expect(body.request.method).to.equal('POST');
         done();
       })
       .reply(201);

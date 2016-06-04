@@ -1,6 +1,8 @@
-var buildPayload = function(path, pathType, callback){
+var buildPayload = function(path, pathType, method, callback){
   payload = {
-    "request": {},
+    "request": {
+        "method": method
+    }
   };
 
   switch(pathType){

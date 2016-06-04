@@ -12,11 +12,29 @@
   </head>
   <body>
     <h1>Wiremock extension</h1>
-    <input type='text' name='requestPath' id='requestPath'/>
-    <select name='requestType' id='requestType'>
+    <input type='text' id='requestPath'/>
+    <select id='requestType'>
       <option value='PATH'>path</option>
       <option value='REGEX'>regex</option>
       <option value='PARTIAL'>partial</option>
+    </select>
+
+    <select id='requestMethod'>
+      <option value='GET'>GET</option>
+      <option value='POST'>POST</option>
+      <option value='PUT'>PUT</option>
+      <option value='PATCH'>PATCH</option>
+      <option value='DELETE'>DELETE</option>
+      <option value='COPY'>COPY</option>
+      <option value='HEAD'>HEAD</option>
+      <option value='OPTIONS'>OPTIONS</option>
+      <option value='LINK'>LINK</option>
+      <option value='UNLINK'>UNLINK</option>
+      <option value='PURGE'>PURGE</option>
+      <option value='LOCK'>LOCK</option>
+      <option value='UNLOCK'>UNLOCK</option>
+      <option value='PROPFIND'>PROPFIND</option>
+      <option value='VIEW'>VIEW</option>
     </select>
 
     <input type="button" id="makeRequest" value="Create" />

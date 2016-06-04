@@ -4,8 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     submit.addEventListener('click', function() {
       var path = document.getElementById('requestPath').value;
       var pathType = document.getElementById('requestType').value;
+      var method = document.getElementById('requestMethod').value;
 
-      buildPayload(path, pathType, function(payload){
+      buildPayload(path, pathType, method, function(payload){
         postToMappingsNew(payload);
       });
     });
