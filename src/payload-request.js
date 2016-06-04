@@ -21,7 +21,7 @@ $(document).ready(function() {
       }
     });
 
-    $(document).on('click', '#blankRequestHeader > input', function(event){
+    $(document).on('focus', '#blankRequestHeader > input', function(event){
       var currentNewEntry = $('#blankRequestHeader');
 
       if($('#requestHeaders li').length === 1){
