@@ -38,8 +38,23 @@
       <option value="VIEW">VIEW</option>
     </select>
 
+    <p>Query string matcher</p>
+    <ul id="requestQueryString">
+      <li class="queryStringMatcher" id="blankQueryString">
+        <input type="text" class="key" />
+        <select class="matcher">
+          <option value="equalTo">equalTo</option>
+          <option value="matches">matches</option>
+          <option value="doesNotMatch">doesNotMatch</option>
+          <option value="contains">contains</option>
+        </select>
+        <input type="text" class="value" />
+      </li>
+    </ul>
+
     <br />
 
+    <p>Header matcher</p>
     <ul id="requestHeaders">
       <li class="headerMatcher" id="blankRequestHeader">
         <input type="text" class="key" />

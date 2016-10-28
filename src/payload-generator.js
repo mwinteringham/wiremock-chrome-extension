@@ -1,11 +1,25 @@
-var buildPayload = function(path, pathType, method, headerMatchersPayload, callback){
+var buildPayload = function(path, pathType, method, queryStringMatchersPayload, headerMatchersPayload, callback){
   payload = {
     "request": {
         "method": method
     }
   };
 
+  if(queryStringMatchersPayload.length > 0){
+    payload.request.queryParameters = {};
+
+    for(var i = 0; i < queryStringMatchersPayload.length; i++){
+      var key = queryStringMatchersPayload[i].key;
+      var matcher = queryStringMatchersPayload[i].matcher;
+      var value = queryStringMatchersPayload[i].value;
+
+      payload.request.queryParameters[key] = {};
+      payload.request.queryParameters[key][matcher] = value;
+    }
+  }
+
   if(headerMatchersPayload.length > 0){
+    console.log(headerMatchersPayload.length);
     payload.request.headers = {};
 
     for(var i = 0; i < headerMatchersPayload.length; i++){
