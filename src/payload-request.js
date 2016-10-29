@@ -6,13 +6,17 @@ $(document).ready(function() {
       var requestHeaders = generateRequestHeadersArray();
       var queryString = generateQueryStringArray();
       var payload = $('#requestPayload').val();
+      var statusCode = $('#statusCode').val();
+      var priority = $('#priority').val();
 
       buildPayload(path,
                    pathType,
                    method,
+                   priority,
                    queryString,
                    requestHeaders,
                    payload,
+                   statusCode,
                    function(payload){
                      postToMappingsNew(payload);
                    });

@@ -112,6 +112,18 @@ describe('Wiremock popup view', function(){
     done();
   });
 
+  it('should have a text box to enter a status code', function(done){
+    expect(dom.$('#statusCode').length).to.equal(1);
+
+    done();
+  });
+
+  it('should have a text box to enter priority for the stub', function(done){
+    expect(dom.$('#priority').length).to.equal(1);
+
+    done();
+  });
+
 });
 
 describe('Wiremock integration check', function(){
@@ -120,6 +132,7 @@ describe('Wiremock integration check', function(){
     dom.$('#requestPath').val('/path/test/1');
     dom.$('#requestType').val('PATH');
     dom.$('#requestMethod').val('POST');
+    dom.$('#priority').val('1');
 
     dom.$('.queryStringMatcher .key').val('key1');
     dom.$('.queryStringMatcher .matcher').val('equalTo');
@@ -154,17 +167,21 @@ describe('Wiremock integration check', function(){
 
     dom.$('#requestPayload').val(generatedPayload);
 
+    dom.$('#statusCode').val('200');
+
     dom.$('#makeRequest').click();
 
     nock('http://localhost:8080')
       .post('/__admin/mappings/new',function(body){
         expect(body.request.url).to.equal('/path/test/1');
         expect(body.request.method).to.equal('POST');
+        expect(body.priority).to.equal('1');
         expect(body.request.queryParameters['key1']['equalTo']).to.equal('value1');
         expect(body.request.queryParameters['key2']['matches']).to.equal('value2');
         expect(body.request.headers['key1']['equalTo']).to.equal('value1');
         expect(body.request.headers['key2']['matches']).to.equal('value2');
         expect(body.request.bodyPatterns[0].equalToJson).to.deep.equal(generatedPayload);
+        expect(body.response.status).to.equal('200');
         done();
       })
       .reply(201);

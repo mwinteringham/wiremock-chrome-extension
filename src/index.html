@@ -38,6 +38,8 @@
       <option value="VIEW">VIEW</option>
     </select>
 
+    <input type="text" id="priority" />
+
     <p>Query string matcher</p>
     <ul id="requestQueryString">
       <li class="queryStringMatcher" id="blankQueryString">
@@ -73,7 +75,11 @@
     <p>Request body matcher</p>
     <textarea id="requestPayload" rows="4" cols="50"></textarea>
 
-    <br />
+    <hr />
+
+    <input type="text" id="statusCode" />
+
+    </br >
 
     <input type="button" id="makeRequest" value="Create" />
   </body>

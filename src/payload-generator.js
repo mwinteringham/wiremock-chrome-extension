@@ -1,9 +1,14 @@
-var buildPayload = function(path, pathType, method, queryStringMatchersPayload, headerMatchersPayload, requestPayload, callback){
+var buildPayload = function(path, pathType, method, priority, queryStringMatchersPayload, headerMatchersPayload, requestPayload, statusCode, callback){
   payload = {
     "request": {
         "method": method
+    },
+    "response": {
+      "status": statusCode
     }
   };
+
+  payload.priority = priority.length >= 1 ? priority : '1';
 
   if(queryStringMatchersPayload.length > 0){
     payload.request.queryParameters = {};
