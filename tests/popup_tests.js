@@ -17,7 +17,7 @@ beforeEach(function(done){
   done();
 })
 
-describe('Wiremock pop view', function(){
+describe('Wiremock popup view', function(){
 
   it('should have a frame size of 485x675px', function(done){
     expect(dom.$('body').height()).to.equal(675);
@@ -106,6 +106,12 @@ describe('Wiremock pop view', function(){
     done();
   });
 
+  it('should have a text box to add a payload matcher', function(done){
+    expect(dom.$('#requestPayload').length).to.equal(1);
+
+    done();
+  });
+
 });
 
 describe('Wiremock integration check', function(){
@@ -135,6 +141,19 @@ describe('Wiremock integration check', function(){
     dom.$('.headerMatcher .matcher').eq(1).val('matches');
     dom.$('.headerMatcher .value').eq(1).val('value2');
 
+    var generatedPayload = JSON.stringify({
+      "total_results": 4,
+      "array_result": [
+        {
+          "result": 1
+        },{
+          "result": 2
+        }
+      ]
+    })
+
+    dom.$('#requestPayload').val(generatedPayload);
+
     dom.$('#makeRequest').click();
 
     nock('http://localhost:8080')
@@ -145,6 +164,7 @@ describe('Wiremock integration check', function(){
         expect(body.request.queryParameters['key2']['matches']).to.equal('value2');
         expect(body.request.headers['key1']['equalTo']).to.equal('value1');
         expect(body.request.headers['key2']['matches']).to.equal('value2');
+        expect(body.request.bodyPatterns[0].equalToJson).to.deep.equal(generatedPayload);
         done();
       })
       .reply(201);

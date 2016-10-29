@@ -1,4 +1,4 @@
-var buildPayload = function(path, pathType, method, queryStringMatchersPayload, headerMatchersPayload, callback){
+var buildPayload = function(path, pathType, method, queryStringMatchersPayload, headerMatchersPayload, requestPayload, callback){
   payload = {
     "request": {
         "method": method
@@ -19,7 +19,6 @@ var buildPayload = function(path, pathType, method, queryStringMatchersPayload, 
   }
 
   if(headerMatchersPayload.length > 0){
-    console.log(headerMatchersPayload.length);
     payload.request.headers = {};
 
     for(var i = 0; i < headerMatchersPayload.length; i++){
@@ -42,6 +41,31 @@ var buildPayload = function(path, pathType, method, queryStringMatchersPayload, 
     case 'PARTIAL':
       payload.request.urlPath = path;
       break;
+  }
+
+  if(requestPayload){
+    switch (requestPayload.charAt(0)) {
+      case '{':
+        payload.request.bodyPatterns = [{
+          "equalToJson": requestPayload
+        }];
+        break;
+      case '$':
+        payload.request.bodyPatterns = [{
+          "matchesJsonPath": requestPayload
+        }];
+        break;
+      case '<':
+        payload.request.bodyPatterns = [{
+          "equalToXml": requestPayload
+        }];
+        break;
+      case '/':
+        payload.request.bodyPatterns = [{
+          "matchesXPath": requestPayload
+        }];
+        break;
+    }
   }
 
   callback(payload);

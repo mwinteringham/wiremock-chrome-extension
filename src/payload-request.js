@@ -5,10 +5,17 @@ $(document).ready(function() {
       var method = $('#requestMethod').val();
       var requestHeaders = generateRequestHeadersArray();
       var queryString = generateQueryStringArray();
+      var payload = $('#requestPayload').val();
 
-      buildPayload(path, pathType, method, queryString, requestHeaders, function(payload){
-        postToMappingsNew(payload);
-      });
+      buildPayload(path,
+                   pathType,
+                   method,
+                   queryString,
+                   requestHeaders,
+                   payload,
+                   function(payload){
+                     postToMappingsNew(payload);
+                   });
     });
 
     $(document).on('click', 'a', function(event){
