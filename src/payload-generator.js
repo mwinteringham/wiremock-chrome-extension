@@ -1,4 +1,4 @@
-var buildPayload = function(path, pathType, method, priority, queryStringMatchersPayload, requestHeadersPayload, requestPayload, statusCode, responseHeadersPayload, callback){
+var buildPayload = function(path, pathType, method, priority, queryStringMatchersPayload, requestHeadersPayload, requestPayload, statusCode, responseHeadersPayload, responsePayload, callback){
   payload = {
     "request": {
         "method": method
@@ -82,6 +82,10 @@ var buildPayload = function(path, pathType, method, priority, queryStringMatcher
         }];
         break;
     }
+  }
+
+  if(responsePayload.length > 0){
+    payload.response.body = responsePayload;
   }
 
   callback(payload);

@@ -9,6 +9,9 @@ $(document).ready(function() {
       var statusCode = $('#statusCode').val();
       var priority = $('#priority').val();
       var responseHeaders = generateResponseHeadersArray();
+      var responsePayload = $('#responsePayload').val();
+
+      console.log(responsePayload);
 
       buildPayload(path,
                    pathType,
@@ -19,6 +22,7 @@ $(document).ready(function() {
                    payload,
                    statusCode,
                    responseHeaders,
+                   responsePayload,
                    function(payload){
                      postToMappingsNew(payload);
                    });

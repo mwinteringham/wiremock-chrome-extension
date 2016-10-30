@@ -155,6 +155,12 @@ describe('Wiremock popup view', function(){
     done();
   });
 
+  it('should have a textbox to add a response payload', function(done){
+    expect(dom.$('#responsePayload').length).to.equal(1);
+
+    done();
+  });
+
 });
 
 describe('Wiremock integration check', function(){
@@ -194,7 +200,7 @@ describe('Wiremock integration check', function(){
           "result": 2
         }
       ]
-    })
+    });
 
     dom.$('#requestPayload').val(generatedPayload);
 
@@ -207,6 +213,19 @@ describe('Wiremock integration check', function(){
 
     dom.$('.responseHeader .key').eq(1).val('key2');
     dom.$('.responseHeader .value').eq(1).val('value2');
+
+    var generatedPayload2 = JSON.stringify({
+      "total_results": 2,
+      "array_result": [
+        {
+          "result": "a"
+        },{
+          "result": "b"
+        }
+      ]
+    });
+
+    dom.$('#responsePayload').val(generatedPayload2);
 
     dom.$('#makeRequest').click();
 
@@ -223,6 +242,7 @@ describe('Wiremock integration check', function(){
         expect(body.response.status).to.equal('200');
         expect(body.response.headers['key1']).to.equal('value1');
         expect(body.response.headers['key2']).to.equal('value2');
+        expect(body.response.body).to.deep.equal(generatedPayload2);
         done();
       })
       .reply(201);
