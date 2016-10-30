@@ -8,6 +8,7 @@ $(document).ready(function() {
       var payload = $('#requestPayload').val();
       var statusCode = $('#statusCode').val();
       var priority = $('#priority').val();
+      var responseHeaders = generateResponseHeadersArray();
 
       buildPayload(path,
                    pathType,
@@ -17,17 +18,18 @@ $(document).ready(function() {
                    requestHeaders,
                    payload,
                    statusCode,
+                   responseHeaders,
                    function(payload){
                      postToMappingsNew(payload);
                    });
     });
 
-    $(document).on('click', 'a', function(event){
+    $(document).on('click', '#requestHeaders a', function(event){
       event.preventDefault();
 
       $(this).parent().remove();
 
-      if($('.headerMatcher').length === 1){
+      if($('.requestHeader').length === 1){
         $('#blankRequestHeader .delete').remove();
       }
     });
@@ -40,12 +42,12 @@ $(document).ready(function() {
       }
 
       currentNewEntry.removeAttr('id');
-      var newHeaderOption = '<li class="headerMatcher" id="blankRequestHeader"><input type="text" class="key" /><select class="matcher"><option>equalTo</option><option>matches</option><option>doesNotMatch</option><option>contains</option></select><input type="text" class="value" /><a href="#" class="delete">Delete</a></li>'
+      var newHeaderOption = '<li class="requestHeader" id="blankRequestHeader"><input type="text" class="key" /><select class="matcher"><option>equalTo</option><option>matches</option><option>doesNotMatch</option><option>contains</option></select><input type="text" class="value" /><a href="#" class="delete">Delete</a></li>'
 
       $('#requestHeaders').append(newHeaderOption);
     });
 
-    $(document).on('click', 'a', function(event){
+    $(document).on('click', '#requestQueryString a', function(event){
       event.preventDefault();
 
       $(this).parent().remove();
@@ -68,6 +70,29 @@ $(document).ready(function() {
       $('#requestQueryString').append(newHeaderOption);
     });
 
+    $(document).on('click', '#responseHeaders a', function(event){
+      event.preventDefault();
+
+      $(this).parent().remove();
+
+      if($('.responseHeader').length === 1){
+        $('#blankResponseHeader .delete').remove();
+      }
+    });
+
+    $(document).on('focus', '#blankResponseHeader > input', function(event){
+      var currentNewEntry = $('#blankResponseHeader');
+
+      if($('#responseHeaders li').length === 1){
+        currentNewEntry.append('<a href="#" class="delete">Delete</a>')
+      }
+
+      currentNewEntry.removeAttr('id');
+      var newHeaderOption = '<li class="responseHeader" id="blankResponseHeader"><input type="text" class="key" /><input type="text" class="value" /><a href="#" class="delete">Delete</a></li>'
+
+      $('#responseHeaders').append(newHeaderOption);
+    });
+
 });
 
 var postToMappingsNew = function(payload){
@@ -75,7 +100,7 @@ var postToMappingsNew = function(payload){
   xhr.open('POST', 'http://localhost:8080/__admin/mappings/new', true);
   xhr.setRequestHeader("Content-Type","application/json");
   xhr.send(JSON.stringify(payload));
-}
+};
 
 var generateRequestHeadersArray = function(){
   var headers = $('#requestHeaders li');
@@ -95,7 +120,7 @@ var generateRequestHeadersArray = function(){
   }
 
   return arrayToReturn;
-}
+};
 
 var generateQueryStringArray = function(){
   var headers = $('#requestQueryString li');
@@ -115,4 +140,23 @@ var generateQueryStringArray = function(){
   }
 
   return arrayToReturn;
-}
+};
+
+var generateResponseHeadersArray = function(){
+  var headers = $('#responseHeaders li');
+  var arrayToReturn = [];
+  var arrayCount = 0;
+
+  for(var i = 0; i < headers.length; i++){
+    if(headers.eq(i).find('.key').val().length !== 0){
+      arrayToReturn[arrayCount] = {
+        'key': headers.eq(i).find('.key').val(),
+        'value': headers.eq(i).find('.value').val()
+      }
+
+      arrayCount++;
+    }
+  }
+
+  return arrayToReturn;
+};

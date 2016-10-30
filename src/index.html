@@ -58,7 +58,7 @@
 
     <p>Header matcher</p>
     <ul id="requestHeaders">
-      <li class="headerMatcher" id="blankRequestHeader">
+      <li class="requestHeader" id="blankRequestHeader">
         <input type="text" class="key" />
         <select class="matcher">
           <option value="equalTo">equalTo</option>
@@ -79,7 +79,17 @@
 
     <input type="text" id="statusCode" />
 
-    </br >
+    <br />
+
+    <p>Response header matcher</p>
+    <ul id="responseHeaders">
+      <li class="responseHeader" id="blankResponseHeader">
+        <input type="text" class="key" />
+        <input type="text" class="value" />
+      </li>
+    </ul>
+
+    <br />
 
     <input type="button" id="makeRequest" value="Create" />
   </body>

@@ -13,7 +13,7 @@ before(function(done){
 describe('Generate payload function', function(){
 
   it('should generate a payload with a standard path', function(done){
-      dom.buildPayload('/path/test/1', 'PATH', 'GET', 1, [], [], null, 200, function(payload){
+      dom.buildPayload('/path/test/1', 'PATH', 'GET', 1, [], [], null, 200, [], function(payload){
         expect(payload.request.url).to.equal('/path/test/1');
 
         done();
@@ -21,7 +21,7 @@ describe('Generate payload function', function(){
   });
 
   it('should generate a payload with a regex matching path', function(done){
-    dom.buildPayload('/thing/matching/[0-9]+', 'REGEX', 'GET', 1, [], [], null, 200, function(payload){
+    dom.buildPayload('/thing/matching/[0-9]+', 'REGEX', 'GET', 1, [], [], null, 200, [], function(payload){
       expect(payload.request.urlPattern).to.equal('/thing/matching/[0-9]+');
 
       done();
@@ -29,7 +29,7 @@ describe('Generate payload function', function(){
   });
 
   it('should generate a payload with a partial matching path', function(done){
-    dom.buildPayload('/thing', 'PARTIAL', 'GET', 1, [], [], null, 200, function(payload){
+    dom.buildPayload('/thing', 'PARTIAL', 'GET', 1, [], [], null, 200, [], function(payload){
       expect(payload.request.urlPath).to.equal('/thing');
 
       done();
@@ -37,7 +37,7 @@ describe('Generate payload function', function(){
   });
 
   it('should generate a payload with a http method', function(done){
-    dom.buildPayload('/thing', 'PATH', 'GET', 1, [], [], null, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'GET', 1, [], [], null, 200, [], function(payload){
       expect(payload.request.method).to.equal('GET');
 
       done();
@@ -45,7 +45,7 @@ describe('Generate payload function', function(){
   });
 
   it('should generate a payload with headers', function(done) {
-    var headerMatchersPayload = [
+    var requestHeadersPayload = [
       {
         'key': 'key1',
         'matcher': 'equalTo',
@@ -65,7 +65,7 @@ describe('Generate payload function', function(){
       }
     ];
 
-    dom.buildPayload('/thing', 'PATH', 'GET', 1, [], headerMatchersPayload, null, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'GET', 1, [], requestHeadersPayload, null, 200, [], function(payload){
       expect(payload.request.headers['key1']['equalTo']).to.equal('value1');
       expect(payload.request.headers['key2']['matches']).to.equal('value2');
       expect(payload.request.headers['key3']['doesNotMatch']).to.equal('value3');
@@ -97,7 +97,7 @@ describe('Generate payload function', function(){
       }
     ];
 
-    dom.buildPayload('/thing', 'PATH', 'GET', 1, queryStringMatchersPayload, [], null, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'GET', 1, queryStringMatchersPayload, [], null, 200, [], function(payload){
       expect(payload.request.queryParameters['key1']['equalTo']).to.equal('value1');
       expect(payload.request.queryParameters['key2']['matches']).to.equal('value2');
       expect(payload.request.queryParameters['key3']['doesNotMatch']).to.equal('value3');
@@ -120,7 +120,7 @@ describe('Generate payload function', function(){
       ]
     });
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], generatedPayload, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], generatedPayload, 200, [], function(payload){
       expect(payload.request.bodyPatterns[0].equalToJson).to.deep.equal(generatedPayload);
     });
 
@@ -130,7 +130,7 @@ describe('Generate payload function', function(){
   it('should generate a matchesJsonPath payload when provided a JSON path', function(done){
     var jsonPath = "$.things[?(@.name == 'RequiredThing')]";
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], jsonPath, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], jsonPath, 200, [], function(payload){
       expect(payload.request.bodyPatterns[0].matchesJsonPath).to.equal(jsonPath);
     });
 
@@ -144,7 +144,7 @@ describe('Generate payload function', function(){
                    "<result>2</result>" +
                    "<array_result>";
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], xmlPath, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], xmlPath, 200, [], function(payload){
       expect(payload.request.bodyPatterns[0].equalToXml).to.equal(xmlPath);
     });
 
@@ -154,7 +154,7 @@ describe('Generate payload function', function(){
   it('should generate a matchesXPath payload when provided an Xpath', function(done){
     var xPath = "/todo-list[count(todo-item) = 3]"
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], xPath, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], xPath, 200, [], function(payload){
       expect(payload.request.bodyPatterns[0].matchesXPath).to.equal(xPath);
     });
 
@@ -164,7 +164,7 @@ describe('Generate payload function', function(){
   it('should generate a response status code when provided a status code', function(done){
     var statusCode = 200;
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], null, statusCode, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], null, statusCode, [], function(payload){
       expect(payload.response.status).to.equal(statusCode);
     });
 
@@ -174,7 +174,7 @@ describe('Generate payload function', function(){
   it('should generate a priority when provided a priority number', function(done) {
     var priority = "1";
 
-    dom.buildPayload('/thing', 'PATH', 'POST', priority, [], [], null, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', priority, [], [], null, 200, [], function(payload){
       expect(payload.priority).to.equal(priority);
     });
 
@@ -182,11 +182,31 @@ describe('Generate payload function', function(){
   });
 
   it('should generate a default priority when not provided a priority number', function(done) {
-    dom.buildPayload('/thing', 'PATH', 'POST', '', [], [], null, 200, function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', '', [], [], null, 200, [], function(payload){
       expect(payload.priority).to.equal('1');
     });
 
     done();
+  });
+
+  it('should generate a payload with response header', function(done) {
+    var responseHeaderPayload = [
+      {
+        'key': 'key1',
+        'value': 'value1'
+      },{
+        'key': 'key2',
+        'value': 'value2'
+      }
+    ];
+
+    dom.buildPayload('/thing', 'PATH', 'GET', 1, [], [], null, 200, responseHeaderPayload, function(payload){
+      expect(payload.response.headers['key1']).to.equal('value1');
+      expect(payload.response.headers['key2']).to.equal('value2');
+
+      done();
+    });
+
   });
 
 });

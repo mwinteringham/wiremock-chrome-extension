@@ -45,8 +45,8 @@ describe('Wiremock popup view', function(){
   });
 
   it('should have a single entry to create a matching header', function(done){
-    expect(dom.$('.headerMatcher').length).to.equal(1);
-    expect(dom.$('.headerMatcher .delete').length).to.equal(0);
+    expect(dom.$('.requestHeader').length).to.equal(1);
+    expect(dom.$('.requestHeader .delete').length).to.equal(0);
 
     done();
   });
@@ -55,12 +55,12 @@ describe('Wiremock popup view', function(){
     dom.$('#requestHeaders #blankRequestHeader .key').focus();
     dom.$('#requestHeaders #blankRequestHeader .value').focus();
 
-    expect(dom.$('.headerMatcher').length).to.equal(3);
-    expect(dom.$('.headerMatcher a').length).to.equal(3);
+    expect(dom.$('.requestHeader').length).to.equal(3);
+    expect(dom.$('.requestHeader a').length).to.equal(3);
     expect(dom.$('#blankRequestHeader').length).to.equal(1);
 
-    dom.$('.headerMatcher a')[0].click();
-    dom.$('.headerMatcher a')[0].click();
+    dom.$('.requestHeader a')[0].click();
+    dom.$('.requestHeader a')[0].click();
 
     done();
   });
@@ -68,9 +68,9 @@ describe('Wiremock popup view', function(){
   it('should delete a request header when clicking on the delete button', function(done){
     dom.$('#requestHeaders #blankRequestHeader .key').focus();
 
-    dom.$('.headerMatcher a')[0].click();
-    expect(dom.$('.headerMatcher').length).to.equal(1);
-    expect(dom.$('.headerMatcher a').length).to.equal(0);
+    dom.$('.requestHeader a')[0].click();
+    expect(dom.$('.requestHeader').length).to.equal(1);
+    expect(dom.$('.requestHeader a').length).to.equal(0);
 
     done();
   });
@@ -124,6 +124,37 @@ describe('Wiremock popup view', function(){
     done();
   });
 
+  it('should have a single entry to create a response header', function(done){
+    expect(dom.$('.responseHeader').length).to.equal(1);
+    expect(dom.$('.responseHeader .delete').length).to.equal(0);
+
+    done();
+  });
+
+  it('should create an additional response header entry when I focus on a response header', function(done) {
+    dom.$('#responseHeaders #blankResponseHeader .key').focus();
+    dom.$('#responseHeaders #blankResponseHeader .value').focus();
+
+    expect(dom.$('.responseHeader').length).to.equal(3);
+    expect(dom.$('.responseHeader a').length).to.equal(3);
+    expect(dom.$('#blankResponseHeader').length).to.equal(1);
+
+    dom.$('.responseHeader a')[0].click();
+    dom.$('.responseHeader a')[0].click();
+
+    done();
+  });
+
+  it('should delete a request header when clicking on the delete button', function(done){
+    dom.$('#responseHeaders #blankResponseHeader .key').focus();
+
+    dom.$('.responseHeader a')[0].click();
+    expect(dom.$('.responseHeader').length).to.equal(1);
+    expect(dom.$('.responseHeader a').length).to.equal(0);
+
+    done();
+  });
+
 });
 
 describe('Wiremock integration check', function(){
@@ -144,15 +175,15 @@ describe('Wiremock integration check', function(){
     dom.$('.queryStringMatcher .matcher').eq(1).val('matches');
     dom.$('.queryStringMatcher .value').eq(1).val('value2');
 
-    dom.$('.headerMatcher .key').val('key1');
-    dom.$('.headerMatcher .matcher').val('equalTo');
-    dom.$('.headerMatcher .value').val('value1');
+    dom.$('.requestHeader .key').val('key1');
+    dom.$('.requestHeader .matcher').val('equalTo');
+    dom.$('.requestHeader .value').val('value1');
 
     dom.$('#requestHeaders #blankRequestHeader .key').focus();
 
-    dom.$('.headerMatcher .key').eq(1).val('key2');
-    dom.$('.headerMatcher .matcher').eq(1).val('matches');
-    dom.$('.headerMatcher .value').eq(1).val('value2');
+    dom.$('.requestHeader .key').eq(1).val('key2');
+    dom.$('.requestHeader .matcher').eq(1).val('matches');
+    dom.$('.requestHeader .value').eq(1).val('value2');
 
     var generatedPayload = JSON.stringify({
       "total_results": 4,
@@ -169,6 +200,14 @@ describe('Wiremock integration check', function(){
 
     dom.$('#statusCode').val('200');
 
+    dom.$('.responseHeader .key').val('key1');
+    dom.$('.responseHeader .value').val('value1');
+
+    dom.$('#responseHeaders #blankResponseHeader .key').focus();
+
+    dom.$('.responseHeader .key').eq(1).val('key2');
+    dom.$('.responseHeader .value').eq(1).val('value2');
+
     dom.$('#makeRequest').click();
 
     nock('http://localhost:8080')
@@ -182,6 +221,8 @@ describe('Wiremock integration check', function(){
         expect(body.request.headers['key2']['matches']).to.equal('value2');
         expect(body.request.bodyPatterns[0].equalToJson).to.deep.equal(generatedPayload);
         expect(body.response.status).to.equal('200');
+        expect(body.response.headers['key1']).to.equal('value1');
+        expect(body.response.headers['key2']).to.equal('value2');
         done();
       })
       .reply(201);

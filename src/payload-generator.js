@@ -1,4 +1,4 @@
-var buildPayload = function(path, pathType, method, priority, queryStringMatchersPayload, headerMatchersPayload, requestPayload, statusCode, callback){
+var buildPayload = function(path, pathType, method, priority, queryStringMatchersPayload, requestHeadersPayload, requestPayload, statusCode, responseHeadersPayload, callback){
   payload = {
     "request": {
         "method": method
@@ -23,16 +23,27 @@ var buildPayload = function(path, pathType, method, priority, queryStringMatcher
     }
   }
 
-  if(headerMatchersPayload.length > 0){
+  if(requestHeadersPayload.length > 0){
     payload.request.headers = {};
 
-    for(var i = 0; i < headerMatchersPayload.length; i++){
-      var key = headerMatchersPayload[i].key;
-      var matcher = headerMatchersPayload[i].matcher;
-      var value = headerMatchersPayload[i].value;
+    for(var i = 0; i < requestHeadersPayload.length; i++){
+      var key = requestHeadersPayload[i].key;
+      var matcher = requestHeadersPayload[i].matcher;
+      var value = requestHeadersPayload[i].value;
 
       payload.request.headers[key] = {};
       payload.request.headers[key][matcher] = value;
+    }
+  }
+
+  if(responseHeadersPayload.length > 0 ){
+    payload.response.headers = {};
+
+    for(var i = 0; i < responseHeadersPayload.length; i++){
+      var key = responseHeadersPayload[i].key;
+      var value = responseHeadersPayload[i].value;
+
+      payload.response.headers[key] = value;
     }
   }
 
