@@ -40,7 +40,7 @@ describe('Wiremock extension - mapping view controls', function(){
     dom.$('#mappingControl').click();
 
     setTimeout(function(){
-      dom.$('#mappings > li:nth-child(1)').click();
+      dom.$('#mappings > li:nth-child(1) .mappingTitle').click();
 
       expect(dom.$('#mappings > li:nth-child(1) .mappingDetails:visible').length).to.equal(1);
       done();
@@ -48,13 +48,25 @@ describe('Wiremock extension - mapping view controls', function(){
   });
 
   it('should hide JSON details for a mapping when clicking twice on a mapping entry', function(done){
-    // Race condition based upon previous test - I can't get jsdom to refresh the damn popup!
+    // Conditional based upon previous test - I can't get jsdom to refresh the damn popup!
     setTimeout(function(){
-      dom.$('#mappings > li:nth-child(1)').click();
+      dom.$('#mappings > li:nth-child(1) .mappingTitle').click();
 
       expect(dom.$('#mappings > li:nth-child(1) .mappingDetails:visible').length).to.equal(0);
       done();
     }, 1000);
+  });
+
+  it('should delete a mapping when clicking on the delete button', function(done){
+    this.timeout(3000);
+
+    dom.$('#mappingControl').click();
+    dom.$('#mappings > li:nth-child(1) .deleteMapping').click();
+
+    setTimeout(function(){
+      expect(dom.$('#mappings .mappingTitle').length).to.equal(1);
+      done();
+    }, 2000);
   });
 
 });
