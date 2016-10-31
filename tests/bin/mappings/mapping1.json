@@ -1,0 +1,33 @@
+{
+  "id": "8b5a5e02-d90a-4878-9a25-d79cd8296072",
+  "uuid": "8b5a5e02-d90a-4878-9a25-d79cd8296072",
+  "request": {
+    "url": "/some/thing",
+    "method": "GET",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      }
+    },
+    "queryParameters": {
+      "bleh": {
+        "equalTo": "blah"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\n  \"test\":\"test\"\n}",
+        "ignoreArrayOrder": false,
+        "ignoreExtraElements": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": "{\n  \"response\":\"response\"\n}",
+    "headers": {
+      "Content-type": "application/json"
+    }
+  },
+  "priority": 1
+}

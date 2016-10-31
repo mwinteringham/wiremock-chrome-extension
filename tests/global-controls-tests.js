@@ -1,7 +1,6 @@
 var chai   = require('chai'),
     helpers = require('./helpers.js'),
     expect = chai.expect,
-    nock = require('nock'),
     dom;
 
 before(function(done){

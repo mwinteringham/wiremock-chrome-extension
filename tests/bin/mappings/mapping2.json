@@ -1,0 +1,33 @@
+{
+  "id": "9d4451d1-8a19-478a-9f8a-dca3c63209b4",
+  "uuid": "9d4451d1-8a19-478a-9f8a-dca3c63209b4",
+  "request": {
+    "url": "/some/thing/else",
+    "method": "POST",
+    "headers": {
+      "Content-type": {
+        "equalTo": "application/json"
+      }
+    },
+    "queryParameters": {
+      "blah": {
+        "equalTo": "bleh"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\n   \"details\":\"123\"\n}",
+        "ignoreArrayOrder": false,
+        "ignoreExtraElements": false
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "body": "{\n  \"success\":true\n}",
+    "headers": {
+      "Accept": "application/xml"
+    }
+  },
+  "priority": 1
+}
