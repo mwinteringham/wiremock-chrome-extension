@@ -95,6 +95,10 @@ $(document).ready(function() {
       $('#responseHeaders').append(newHeaderOption);
     });
 
+    $(document).on('click', '#clearForm', function(){
+      location.reload();
+    });
+
 });
 
 var postToMappingsNew = function(payload){
