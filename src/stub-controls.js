@@ -11,8 +11,6 @@ $(document).ready(function() {
       var responseHeaders = generateResponseHeadersArray();
       var responsePayload = $('#responsePayload').val();
 
-      console.log(responsePayload);
-
       buildPayload(path,
                    pathType,
                    method,

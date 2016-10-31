@@ -17,14 +17,7 @@ beforeEach(function(done){
   done();
 })
 
-describe('Wiremock popup view', function(){
-
-  it('should have a frame size of 485x675px', function(done){
-    expect(dom.$('body').height()).to.equal(675);
-    expect(dom.$('body').width()).to.equal(485);
-
-    done();
-  });
+describe('Wiremock extension - stub view', function(){
 
   it('should have a input box for entering paths', function(done){
     expect(dom.$('#requestPath').length).to.equal(1);

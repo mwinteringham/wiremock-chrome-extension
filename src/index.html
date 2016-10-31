@@ -2,99 +2,119 @@
 <html>
   <head>
     <script src="jquery.js"></script>
+    <script src="global-controls.js"></script>
     <script src="payload-generator.js"></script>
-    <script src="payload-request.js"></script>
+    <script src="stub-controls.js"></script>
+    <script src="mapping-controls.js"></script>
     <style>
       html, body {
-        height: 675px;
+        height: 600px;
         width: 485px;
       }
     </style>
   </head>
   <body>
     <h1>Wiremock extension</h1>
-    <input type="text" id="requestPath"/>
-    <select id="requestType">
-      <option value="PATH">path</option>
-      <option value="REGEX">regex</option>
-      <option value="PARTIAL">partial</option>
-    </select>
 
-    <select id="requestMethod">
-      <option value="GET">GET</option>
-      <option value="POST">POST</option>
-      <option value="PUT">PUT</option>
-      <option value="PATCH">PATCH</option>
-      <option value="DELETE">DELETE</option>
-      <option value="COPY">COPY</option>
-      <option value="HEAD">HEAD</option>
-      <option value="OPTIONS">OPTIONS</option>
-      <option value="LINK">LINK</option>
-      <option value="UNLINK">UNLINK</option>
-      <option value="PURGE">PURGE</option>
-      <option value="LOCK">LOCK</option>
-      <option value="UNLOCK">UNLOCK</option>
-      <option value="PROPFIND">PROPFIND</option>
-      <option value="VIEW">VIEW</option>
-    </select>
+    <input type="button" id="stubControl" value="Create stub"/>
+    <input type="button" id="mappingControl" value="View mappings"/>
+    <input type="button" id="aboutControl" value="About"/>
 
-    <input type="text" id="priority" />
+    <div id="mappingView">
+      <h2>Mappings</h2>
+    </div>
 
-    <p>Query string matcher</p>
-    <ul id="requestQueryString">
-      <li class="queryStringMatcher" id="blankQueryString">
-        <input type="text" class="key" />
-        <select class="matcher">
-          <option value="equalTo">equalTo</option>
-          <option value="matches">matches</option>
-          <option value="doesNotMatch">doesNotMatch</option>
-          <option value="contains">contains</option>
-        </select>
-        <input type="text" class="value" />
-      </li>
-    </ul>
+    <div id="aboutView">
+      <h2>About</h2>
+    </div>
 
-    <br />
+    <div id="stubView">
+      <h2>Create stub</h2>
 
-    <p>Header matcher</p>
-    <ul id="requestHeaders">
-      <li class="requestHeader" id="blankRequestHeader">
-        <input type="text" class="key" />
-        <select class="matcher">
-          <option value="equalTo">equalTo</option>
-          <option value="matches">matches</option>
-          <option value="doesNotMatch">doesNotMatch</option>
-          <option value="contains">contains</option>
-        </select>
-        <input type="text" class="value" />
-      </li>
-    </ul>
+      <input type="text" id="requestPath"/>
+      <select id="requestType">
+        <option value="PATH">path</option>
+        <option value="REGEX">regex</option>
+        <option value="PARTIAL">partial</option>
+      </select>
 
-    <br />
+      <select id="requestMethod">
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="PATCH">PATCH</option>
+        <option value="DELETE">DELETE</option>
+        <option value="COPY">COPY</option>
+        <option value="HEAD">HEAD</option>
+        <option value="OPTIONS">OPTIONS</option>
+        <option value="LINK">LINK</option>
+        <option value="UNLINK">UNLINK</option>
+        <option value="PURGE">PURGE</option>
+        <option value="LOCK">LOCK</option>
+        <option value="UNLOCK">UNLOCK</option>
+        <option value="PROPFIND">PROPFIND</option>
+        <option value="VIEW">VIEW</option>
+      </select>
 
-    <p>Request body matcher</p>
-    <textarea id="requestPayload" rows="4" cols="50"></textarea>
+      <input type="text" id="priority" />
 
-    <hr />
+      <p>Query string matcher</p>
+      <ul id="requestQueryString">
+        <li class="queryStringMatcher" id="blankQueryString">
+          <input type="text" class="key" />
+          <select class="matcher">
+            <option value="equalTo">equalTo</option>
+            <option value="matches">matches</option>
+            <option value="doesNotMatch">doesNotMatch</option>
+            <option value="contains">contains</option>
+          </select>
+          <input type="text" class="value" />
+        </li>
+      </ul>
 
-    <input type="text" id="statusCode" />
+      <br />
 
-    <br />
+      <p>Header matcher</p>
+      <ul id="requestHeaders">
+        <li class="requestHeader" id="blankRequestHeader">
+          <input type="text" class="key" />
+          <select class="matcher">
+            <option value="equalTo">equalTo</option>
+            <option value="matches">matches</option>
+            <option value="doesNotMatch">doesNotMatch</option>
+            <option value="contains">contains</option>
+          </select>
+          <input type="text" class="value" />
+        </li>
+      </ul>
 
-    <p>Response header matcher</p>
-    <ul id="responseHeaders">
-      <li class="responseHeader" id="blankResponseHeader">
-        <input type="text" class="key" />
-        <input type="text" class="value" />
-      </li>
-    </ul>
+      <br />
 
-    <br />
+      <p>Request body matcher</p>
+      <textarea id="requestPayload" rows="4" cols="50"></textarea>
 
-    <textarea id="responsePayload" rows="4" cols="50"></textarea>
+      <hr />
 
-    <br />
+      <input type="text" id="statusCode" />
 
-    <input type="button" id="makeRequest" value="Create" />
+      <br />
+
+      <p>Response header matcher</p>
+      <ul id="responseHeaders">
+        <li class="responseHeader" id="blankResponseHeader">
+          <input type="text" class="key" />
+          <input type="text" class="value" />
+        </li>
+      </ul>
+
+      <br />
+
+      <textarea id="responsePayload" rows="4" cols="50"></textarea>
+
+      <br />
+
+      <input type="button" id="makeRequest" value="Create" />
+    </div>
+
   </body>
 </html>
