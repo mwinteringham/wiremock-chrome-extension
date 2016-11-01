@@ -1,20 +1,18 @@
 var chai   = require('chai'),
     helpers = require('./helpers.js'),
     expect = chai.expect,
+    request = require('request'),
     nock = require('nock'),
     dom;
 
-before(function(done){
+beforeEach(function(done){
   helpers.buildDom(function(window){
     dom = window;
+
+    nock.cleanAll();
+
     done();
   })
-});
-
-beforeEach(function(done){
-  nock.cleanAll();
-
-  done();
 })
 
 describe('Wiremock extension - stub view controls', function(){
@@ -152,6 +150,53 @@ describe('Wiremock extension - stub view controls', function(){
     expect(dom.$('#responsePayload').length).to.equal(1);
 
     done();
+  });
+
+});
+
+describe('Wiremock extension - stub view edit controls', function(){
+
+  it('should turn into edit mode on submission of a succesfull stub', function(done){
+    this.timeout(3000);
+
+    dom.$('#requestPath').val('/path/test/1');
+    dom.$('#statusCode').val('200');
+    dom.$('#makeRequest').click();
+
+    setTimeout(function(){
+      expect(dom.$('#newForm').val()).to.equal('New stub');
+      expect(dom.$('#status').text()).to.equal('Stub created!')
+      expect(dom.$('#editId').val().length).to.not.equal(0);
+
+      done();
+    }, 2000);
+  });
+
+  it('should update a previously created stub when submitting an update', function(done){
+    this.timeout(5000);
+
+    dom.$('#newForm').click();
+
+    dom.$('#requestPath').val('/path/test/1');
+    dom.$('#statusCode').val('200');
+    dom.$('#makeRequest').click();
+
+    setTimeout(function(){
+        var id = dom.$('#editId').val();
+
+        dom.$('#requestPath').val('/path/test/2');
+        dom.$('#statusCode').val('400');
+        dom.$('#makeRequest').click();
+
+        setTimeout(function(){
+          request('http://localhost:8080/__admin/mappings/' + id, function(error, response, body){
+            var parsedBody = JSON.parse(body);
+            expect(parsedBody.request.url).to.equal('/path/test/2');
+            expect(parsedBody.response.status).to.equal(400);
+            done();
+          })
+        }, 2000)
+    }, 2000)
   });
 
 });

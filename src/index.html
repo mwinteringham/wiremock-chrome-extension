@@ -32,7 +32,8 @@
 
     <div id="stubView">
       <h2>Create stub</h2>
-
+      <p id="status"></p>
+      
       <input type="text" id="requestPath"/>
       <select id="requestType">
         <option value="PATH">path</option>
@@ -115,8 +116,9 @@
 
       <br />
 
+      <input type="hidden" id="editId" value="" />
       <input type="button" id="makeRequest" value="Create" />
-      <input type="button" id="clearForm" value="Clear" />
+      <input type="button" id="newForm" value="Clear" />
     </div>
 
   </body>

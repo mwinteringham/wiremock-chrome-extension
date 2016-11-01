@@ -10,6 +10,7 @@ $(document).ready(function() {
       var priority = $('#priority').val();
       var responseHeaders = generateResponseHeadersArray();
       var responsePayload = $('#responsePayload').val();
+      var id = $('#editId').val();
 
       buildPayload(path,
                    pathType,
@@ -22,7 +23,11 @@ $(document).ready(function() {
                    responseHeaders,
                    responsePayload,
                    function(payload){
-                     postToMappingsNew(payload);
+                     if(id.length > 0){
+                       postMappingsToEdit(id, payload)
+                     } else {
+                       postToMappingsNew(payload);
+                     }
                    });
     });
 
@@ -95,18 +100,44 @@ $(document).ready(function() {
       $('#responseHeaders').append(newHeaderOption);
     });
 
-    $(document).on('click', '#clearForm', function(){
+    $(document).on('click', '#newForm', function(){
       location.reload();
     });
 
 });
 
 var postToMappingsNew = function(payload){
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://localhost:8080/__admin/mappings/new', true);
-  xhr.setRequestHeader("Content-Type","application/json");
-  xhr.send(JSON.stringify(payload));
+  $.ajax({
+      url: "http://localhost:8080/__admin/mappings/new",
+      type: "POST",
+      ContentType: 'application/json; charset=UTF-8',
+      data: JSON.stringify(payload),
+      success: function (response) {
+        $('#makeRequest').val("Update");
+        $('#newForm').val("New stub");
+        $('#status').text("Stub created!");
+        getLatestCreatedId();
+      }
+  });
 };
+
+var postMappingsToEdit = function(id, payload){
+  $.ajax({
+      url: "http://localhost:8080/__admin/mappings/" + id,
+      type: "PUT",
+      ContentType: 'application/json; charset=UTF-8',
+      data: JSON.stringify(payload),
+      success: function (response) {
+        $('#status').text("Stub updated!");
+      }
+  });
+};
+
+var getLatestCreatedId = function(){
+  $.getJSON('http://localhost:8080/__admin/mappings', function(mappingsData) {
+    $('#editId').val(mappingsData.mappings[0].id);
+  });
+}
 
 var generateRequestHeadersArray = function(){
   var headers = $('#requestHeaders li');
