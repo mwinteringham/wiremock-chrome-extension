@@ -26,7 +26,9 @@ $(document).ready(function() {
     $('#mappingView').hide();
     $('#stubView').show();
 
-    var payload = JSON.parse($(this).parent().find('.mappingDetails').text());
+    console.log($(this).parent().next().text())
+
+    var payload = JSON.parse($(this).parent().next().text());
 
     if(payload.request.url){
         $('#requestPath').val(payload.request.url);
@@ -107,8 +109,23 @@ var buildMappingList = function(){
           url = mapping.request.urlPath;
       }
 
-      $('#mappings').append('<li class="mapping"><div class="mappingTitle">' + mapping.request.method + ' ' + url + ' - ' + mapping.response.status + "</div><a href='#/" + mapping.id + "' class='deleteMapping'>Delete</a> <a href='#' class='editMapping'>Edit</a>" +
-                            '<div class="mappingDetails" style="display: none">' + JSON.stringify(mapping) + '</div></li>');
+      $('#mappings').append('<div class="row mapping">' +
+                            ' <div class="mappingTitle">' +
+                            '   <div class="col-xs-3">' + mapping.request.method +
+                            '   </div>' +
+                            '   <div class="col-xs-3">' + url +
+                            '   </div>' +
+                            '   <div class="col-xs-3">' + mapping.response.status +
+                            '   </div>' +
+                            ' </div>' +
+                            ' <div class="col-xs-3"><a href="#" class="editMapping glyphicon glyphicon-pencil"></a> <a href="#/' + mapping.id + '" class="deleteMapping glyphicon glyphicon-remove"></a>' +
+                            '</div>' +
+                            '<div class="row">' +
+                            ' <div class="col-xs-12">' +
+                            '   <div class="mappingDetails" style="display: none"><pre style="text-align: left">' + JSON.stringify(mapping, null, 2) + '</pre></div>' +
+                            ' </div>' +
+                            '</div>');
+
     }
   })
   .fail(function(error) {

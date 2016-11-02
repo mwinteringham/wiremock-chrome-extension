@@ -27,6 +27,15 @@
       .responseHeader input{
         width: 200px;
       }
+
+      .mapping {
+        font-size: 14px;
+      }
+
+      .mapping:hover {
+        background-color: #333;
+        color: #ddd;
+      }
     </style>
   </head>
   <body>
@@ -42,9 +51,9 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li><a href="#" id="stubControl">Editor</a></li>
-            <li><a href="#" id="mappingControl">Mappings</a></li>
-            <li><a href="#" id="aboutControl">About</a></li>
+            <li><a href="#" id="stubControl" data-toggle="collapse" data-target=".navbar-collapse">Editor</a></li>
+            <li><a href="#" id="mappingControl" data-toggle="collapse" data-target=".navbar-collapse">Mappings</a></li>
+            <li><a href="#" id="aboutControl" data-toggle="collapse" data-target=".navbar-collapse">About</a></li>
           </ul>
         </div>
       </div>
@@ -54,9 +63,8 @@
     </div>
 
     <div id="mappingView" class="view">
-      <h2>Mappings</h2>
-      <ul id="mappings">
-      </ul>
+      <div class="container-fluid" id="mappings">
+      </div>
     </div>
 
     <div id="aboutView" class="view">

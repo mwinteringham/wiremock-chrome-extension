@@ -17,9 +17,11 @@ describe('Wiremock extension - mapping view controls', function(){
     dom.$('#mappingControl').click();
 
     setTimeout(function(){
-        expect(dom.$('#mappings > li:nth-child(1) .mappingTitle').text()).to.equal('POST /some/thing/else - 400');
-        expect(dom.$('#mappings > li:nth-child(2) .mappingTitle').text()).to.equal('GET /some/thing - 200');
-        done();
+      var mappingRows = dom.$('.mapping .mappingTitle').map(function(){return dom.$(this).text();}).get();
+
+      expect(mappingRows[0]).to.equal('   POST      /some/thing/else      400    ');
+      expect(mappingRows[1]).to.equal('   GET      /some/thing      200    ');
+      done();
     }, 1000);
   });
 
@@ -27,9 +29,8 @@ describe('Wiremock extension - mapping view controls', function(){
     dom.$('#mappingControl').click();
 
     setTimeout(function(){
-      dom.$('#mappings > li:nth-child(1) .mappingTitle').click();
-
-      expect(dom.$('#mappings > li:nth-child(1) .mappingDetails:visible').length).to.equal(1);
+      dom.$('.mappingTitle')[0].click();
+      expect(dom.$('.mappingDetails:visible').length).to.equal(1);
       done();
     }, 1000);
   });
@@ -38,10 +39,10 @@ describe('Wiremock extension - mapping view controls', function(){
     dom.$('#mappingControl').click();
 
     setTimeout(function(){
-      dom.$('#mappings > li:nth-child(1) .mappingTitle').click();
-      dom.$('#mappings > li:nth-child(1) .mappingTitle').click();
+      dom.$('.mapping')[0].click();
+      dom.$('.mapping')[0].click();
 
-      expect(dom.$('#mappings > li:nth-child(1) .mappingDetails:visible').length).to.equal(0);
+      expect(dom.$('.mappingDetails:visible').length).to.equal(0);
       done();
     }, 1000);
   });
@@ -51,9 +52,9 @@ describe('Wiremock extension - mapping view controls', function(){
 
     dom.$('#mappingControl').click();
     setTimeout(function(){
-      dom.$('#mappings > li:nth-child(1) .deleteMapping').click();
+      dom.$('.deleteMapping')[0].click();
       setTimeout(function(){
-        expect(dom.$('#mappings .mappingTitle').length).to.equal(2);
+        expect(dom.$('.mappingTitle').length).to.equal(2);
         done();
       }, 1000);
     }, 1000)
@@ -65,8 +66,10 @@ describe('Wiremock extension - mapping view controls', function(){
     dom.$('#mappingControl').click();
 
     setTimeout(function(){
-      var id = dom.$('#mappings > li:nth-child(2) a').attr('href').split('/')[1];
-      dom.$('#mappings > li:nth-child(2) .editMapping').click();
+      var idArray = dom.$('.mapping .deleteMapping').map(function(){return dom.$(this).attr('href');}).get();
+      var id = idArray[1].split('/')[1];
+      var editArray = dom.$('.mapping .editMapping').map(function(){return dom.$(this);}).get();
+      editArray[1].click();
 
       setTimeout(function(){
         expect(dom.$('#stubView:visible').length).to.equal(1);
