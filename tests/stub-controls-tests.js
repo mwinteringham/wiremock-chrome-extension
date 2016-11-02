@@ -50,6 +50,7 @@ describe('Wiremock extension - stub view controls', function(){
     expect(dom.$('.requestHeader a').length).to.equal(3);
     expect(dom.$('#blankRequestHeader').length).to.equal(1);
 
+    // To check - I can delete this:
     dom.$('.requestHeader a')[0].click();
     dom.$('.requestHeader a')[0].click();
 

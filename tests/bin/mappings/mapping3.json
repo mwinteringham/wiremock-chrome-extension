@@ -1,0 +1,49 @@
+{
+  "id": "f86b0576-3b46-4a79-895a-e93efdc8c283",
+  "uuid": "f86b0576-3b46-4a79-895a-e93efdc8c283",
+  "request": {
+    "urlPath": "/new/mapping",
+    "method": "PUT",
+    "headers": {
+      "header1": {
+        "equalTo": "123"
+      },
+      "header2": {
+        "matches": "456"
+      },
+      "header3": {
+        "doesNotMatch": "789"
+      },
+      "header4": {
+        "contains": "135"
+      }
+    },
+    "queryParameters": {
+      "query1": {
+        "equalTo": "abc"
+      },
+      "query2": {
+        "matches": "def"
+      },
+      "query3": {
+        "doesNotMatch": "ghi"
+      },
+      "query4": {
+        "contains": "jkl"
+      }
+    },
+    "bodyPatterns": [{
+      "equalToJson": "{\n \"body\":\"matcher\"\n}",
+      "ignoreArrayOrder": false,
+      "ignoreExtraElements": false
+    }]
+  },
+  "response": {
+    "status": 200,
+    "body": "{\n \"response\":\"body\"\n}",
+    "headers": {
+      "responseheader1": "abc"
+    }
+  },
+  "priority": 2
+}

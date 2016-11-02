@@ -4,7 +4,7 @@ var chai   = require('chai'),
     exec = require('child_process').exec,
     dom, child;
 
-before(function(done){
+beforeEach(function(done){
   helpers.buildDom(function(window){
     dom = window;
     done();
@@ -35,8 +35,10 @@ describe('Wiremock extension - mapping view controls', function(){
   });
 
   it('should hide JSON details for a mapping when clicking twice on a mapping entry', function(done){
-    // Conditional based upon previous test - I can't get jsdom to refresh the damn popup!
+    dom.$('#mappingControl').click();
+
     setTimeout(function(){
+      dom.$('#mappings > li:nth-child(1) .mappingTitle').click();
       dom.$('#mappings > li:nth-child(1) .mappingTitle').click();
 
       expect(dom.$('#mappings > li:nth-child(1) .mappingDetails:visible').length).to.equal(0);
@@ -48,12 +50,78 @@ describe('Wiremock extension - mapping view controls', function(){
     this.timeout(3000);
 
     dom.$('#mappingControl').click();
-    dom.$('#mappings > li:nth-child(1) .deleteMapping').click();
+    setTimeout(function(){
+      dom.$('#mappings > li:nth-child(1) .deleteMapping').click();
+      setTimeout(function(){
+        expect(dom.$('#mappings .mappingTitle').length).to.equal(2);
+        done();
+      }, 1000);
+    }, 1000)
+  });
+
+  it('should move to edit stub view when selecting edit for a mapping', function(done){
+    this.timeout(3000);
+
+    dom.$('#mappingControl').click();
 
     setTimeout(function(){
-      expect(dom.$('#mappings .mappingTitle').length).to.equal(1);
-      done();
-    }, 2000);
+      var id = dom.$('#mappings > li:nth-child(2) a').attr('href').split('/')[1];
+      dom.$('#mappings > li:nth-child(2) .editMapping').click();
+
+      setTimeout(function(){
+        expect(dom.$('#stubView:visible').length).to.equal(1);
+
+        // Request values
+        expect(dom.$('#requestPath').val()).to.equal('/new/mapping');
+        expect(dom.$('#requestType').val()).to.equal('PARTIAL');
+        expect(dom.$('#requestMethod').val()).to.equal('PUT');
+        expect(dom.$('#priority').val()).to.equal('2');
+
+        // Query string matcher values
+        expect(dom.$('#requestQueryString > li:nth-child(1) .key').val()).to.equal('query1');
+        expect(dom.$('#requestQueryString > li:nth-child(1) .matcher').val()).to.equal('equalTo');
+        expect(dom.$('#requestQueryString > li:nth-child(1) .value').val()).to.equal('abc');
+        expect(dom.$('#requestQueryString > li:nth-child(2) .key').val()).to.equal('query2');
+        expect(dom.$('#requestQueryString > li:nth-child(2) .matcher').val()).to.equal('matches');
+        expect(dom.$('#requestQueryString > li:nth-child(2) .value').val()).to.equal('def');
+        expect(dom.$('#requestQueryString > li:nth-child(3) .key').val()).to.equal('query3');
+        expect(dom.$('#requestQueryString > li:nth-child(3) .matcher').val()).to.equal('doesNotMatch');
+        expect(dom.$('#requestQueryString > li:nth-child(3) .value').val()).to.equal('ghi');
+        expect(dom.$('#requestQueryString > li:nth-child(4) .key').val()).to.equal('query4');
+        expect(dom.$('#requestQueryString > li:nth-child(4) .matcher').val()).to.equal('contains');
+        expect(dom.$('#requestQueryString > li:nth-child(4) .value').val()).to.equal('jkl');
+
+        // Headers matcher values
+        expect(dom.$('#requestHeaders > li:nth-child(1) .key').val()).to.equal('header1');
+        expect(dom.$('#requestHeaders > li:nth-child(1) .matcher').val()).to.equal('equalTo');
+        expect(dom.$('#requestHeaders > li:nth-child(1) .value').val()).to.equal('123');
+        expect(dom.$('#requestHeaders > li:nth-child(2) .key').val()).to.equal('header2');
+        expect(dom.$('#requestHeaders > li:nth-child(2) .matcher').val()).to.equal('matches');
+        expect(dom.$('#requestHeaders > li:nth-child(2) .value').val()).to.equal('456');
+        expect(dom.$('#requestHeaders > li:nth-child(3) .key').val()).to.equal('header3');
+        expect(dom.$('#requestHeaders > li:nth-child(3) .matcher').val()).to.equal('doesNotMatch');
+        expect(dom.$('#requestHeaders > li:nth-child(3) .value').val()).to.equal('789');
+        expect(dom.$('#requestHeaders > li:nth-child(4) .key').val()).to.equal('header4');
+        expect(dom.$('#requestHeaders > li:nth-child(4) .matcher').val()).to.equal('contains');
+        expect(dom.$('#requestHeaders > li:nth-child(4) .value').val()).to.equal('135');
+
+        // Request body matcher value
+        expect(dom.$('#requestPayload').val()).to.equal('{\n \"body\":\"matcher\"\n}');
+
+        // Response values
+        expect(dom.$('#responseHeaders > li:nth-child(1) .key').val()).to.equal('responseheader1');
+        expect(dom.$('#responseHeaders > li:nth-child(1) .value').val()).to.equal('abc');
+
+        expect(dom.$('#statusCode').val()).to.equal('200');
+        expect(dom.$('#responsePayload').val()).to.equal('{\n \"response\":\"body\"\n}');
+
+        expect(dom.$('#makeRequest').val()).to.equal('Update');
+        expect(dom.$('#newForm').val()).to.equal('New stub');
+        expect(dom.$('#editId').val()).to.equal(id);
+
+        done();
+      }, 1000);
+    }, 1000);
   });
 
 });

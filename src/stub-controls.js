@@ -101,7 +101,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#newForm', function(){
-      location.reload();
+      clearForm();
     });
 
 });
@@ -197,3 +197,42 @@ var generateResponseHeadersArray = function(){
 
   return arrayToReturn;
 };
+
+var clearForm = function(){
+  $('#stubView #form input').each(function(){ this.value = '' });
+  $('#stubView #form textarea').each(function(){ this.value = '' });
+
+  $('#requestType').val('PATH');
+  $('#requestMethod').val('GET');
+
+  $('#requestQueryString').html('<li class="queryStringMatcher" id="blankQueryString">' +
+                             '<input type="text" class="key" />' +
+                             '<select class="matcher">' +
+                             '  <option value="equalTo">equalTo</option>' +
+                             '  <option value="matches">matches</option>' +
+                             '  <option value="doesNotMatch">doesNotMatch</option>' +
+                             '  <option value="contains">contains</option>' +
+                             '</select>' +
+                             '<input type="text" class="value" />' +
+                             '</li>');
+
+  $('#requestHeaders').html('<li class="requestHeader" id="blankRequestHeader">' +
+                           '<input type="text" class="key" />' +
+                           '<select class="matcher">' +
+                           '  <option value="equalTo">equalTo</option>' +
+                           '  <option value="matches">matches</option>' +
+                           '  <option value="doesNotMatch">doesNotMatch</option>' +
+                           '  <option value="contains">contains</option>' +
+                           '</select>' +
+                           '<input type="text" class="value" />' +
+                           '</li>')
+
+  $('#responseHeaders').html('<li class="responseHeader" id="blankResponseHeader">' +
+                                '<input type="text" class="key" />' +
+                                '<input type="text" class="value" />' +
+                              '</li>');
+
+  $('#makeRequest').val("Create");
+  $('#newForm').val("Clear");
+  $('#editId').val()
+}

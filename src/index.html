@@ -31,92 +31,95 @@
     </div>
 
     <div id="stubView">
-      <h2>Create stub</h2>
-      <p id="status"></p>
-      
-      <input type="text" id="requestPath"/>
-      <select id="requestType">
-        <option value="PATH">path</option>
-        <option value="REGEX">regex</option>
-        <option value="PARTIAL">partial</option>
-      </select>
+      <div id="form">
+        <h2>Create stub</h2>
+        <p id="status"></p>
 
-      <select id="requestMethod">
-        <option value="GET">GET</option>
-        <option value="POST">POST</option>
-        <option value="PUT">PUT</option>
-        <option value="PATCH">PATCH</option>
-        <option value="DELETE">DELETE</option>
-        <option value="COPY">COPY</option>
-        <option value="HEAD">HEAD</option>
-        <option value="OPTIONS">OPTIONS</option>
-        <option value="LINK">LINK</option>
-        <option value="UNLINK">UNLINK</option>
-        <option value="PURGE">PURGE</option>
-        <option value="LOCK">LOCK</option>
-        <option value="UNLOCK">UNLOCK</option>
-        <option value="PROPFIND">PROPFIND</option>
-        <option value="VIEW">VIEW</option>
-      </select>
+        <input type="text" id="requestPath"/>
+        <select id="requestType">
+          <option value="PATH">path</option>
+          <option value="REGEX">regex</option>
+          <option value="PARTIAL">partial</option>
+        </select>
 
-      <input type="text" id="priority" />
+        <select id="requestMethod">
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="PATCH">PATCH</option>
+          <option value="DELETE">DELETE</option>
+          <option value="COPY">COPY</option>
+          <option value="HEAD">HEAD</option>
+          <option value="OPTIONS">OPTIONS</option>
+          <option value="LINK">LINK</option>
+          <option value="UNLINK">UNLINK</option>
+          <option value="PURGE">PURGE</option>
+          <option value="LOCK">LOCK</option>
+          <option value="UNLOCK">UNLOCK</option>
+          <option value="PROPFIND">PROPFIND</option>
+          <option value="VIEW">VIEW</option>
+        </select>
 
-      <p>Query string matcher</p>
-      <ul id="requestQueryString">
-        <li class="queryStringMatcher" id="blankQueryString">
-          <input type="text" class="key" />
-          <select class="matcher">
-            <option value="equalTo">equalTo</option>
-            <option value="matches">matches</option>
-            <option value="doesNotMatch">doesNotMatch</option>
-            <option value="contains">contains</option>
-          </select>
-          <input type="text" class="value" />
-        </li>
-      </ul>
+        <input type="text" id="priority" />
 
-      <br />
+        <p>Query string matcher</p>
+        <ul id="requestQueryString">
+          <li class="queryStringMatcher" id="blankQueryString">
+            <input type="text" class="key" />
+            <select class="matcher">
+              <option value="equalTo">equalTo</option>
+              <option value="matches">matches</option>
+              <option value="doesNotMatch">doesNotMatch</option>
+              <option value="contains">contains</option>
+            </select>
+            <input type="text" class="value" />
+          </li>
+        </ul>
 
-      <p>Header matcher</p>
-      <ul id="requestHeaders">
-        <li class="requestHeader" id="blankRequestHeader">
-          <input type="text" class="key" />
-          <select class="matcher">
-            <option value="equalTo">equalTo</option>
-            <option value="matches">matches</option>
-            <option value="doesNotMatch">doesNotMatch</option>
-            <option value="contains">contains</option>
-          </select>
-          <input type="text" class="value" />
-        </li>
-      </ul>
+        <br />
 
-      <br />
+        <p>Header matcher</p>
+        <ul id="requestHeaders">
+          <li class="requestHeader" id="blankRequestHeader">
+            <input type="text" class="key" />
+            <select class="matcher">
+              <option value="equalTo">equalTo</option>
+              <option value="matches">matches</option>
+              <option value="doesNotMatch">doesNotMatch</option>
+              <option value="contains">contains</option>
+            </select>
+            <input type="text" class="value" />
+          </li>
+        </ul>
 
-      <p>Request body matcher</p>
-      <textarea id="requestPayload" rows="4" cols="50"></textarea>
+        <br />
 
-      <hr />
+        <p>Request body matcher</p>
+        <textarea id="requestPayload" rows="4" cols="50"></textarea>
 
-      <input type="text" id="statusCode" />
+        <hr />
 
-      <br />
+        <input type="text" id="statusCode" />
 
-      <p>Response header matcher</p>
-      <ul id="responseHeaders">
-        <li class="responseHeader" id="blankResponseHeader">
-          <input type="text" class="key" />
-          <input type="text" class="value" />
-        </li>
-      </ul>
+        <br />
 
-      <br />
+        <p>Response header matcher</p>
+        <ul id="responseHeaders">
+          <li class="responseHeader" id="blankResponseHeader">
+            <input type="text" class="key" />
+            <input type="text" class="value" />
+          </li>
+        </ul>
 
-      <textarea id="responsePayload" rows="4" cols="50"></textarea>
+        <br />
 
-      <br />
+        <textarea id="responsePayload" rows="4" cols="50"></textarea>
 
-      <input type="hidden" id="editId" value="" />
+        <br />
+
+        <input type="hidden" id="editId" value="" />
+
+      </div>
       <input type="button" id="makeRequest" value="Create" />
       <input type="button" id="newForm" value="Clear" />
     </div>
