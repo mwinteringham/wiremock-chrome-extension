@@ -54,27 +54,37 @@ $(document).ready(function() {
       $('#requestHeaders').append(newHeaderOption);
     });
 
-    $(document).on('click', '#requestQueryString a', function(event){
+    $(document).on('click', '.queryStringMatcher a', function(event){
       event.preventDefault();
 
-      $(this).parent().remove();
-
-      if($('.queryStringMatcher').length === 1){
-        $('#blankQueryString .delete').remove();
-      }
+      $(this).parent().parent().remove();
     });
 
-    $(document).on('focus', '#blankQueryString > input', function(event){
+    $(document).on('focus', '#blankQueryString input', function(event){
       var currentNewEntry = $('#blankQueryString');
 
-      if($('#requestQueryString li').length === 1){
-        currentNewEntry.append('<a href="#" class="delete">Delete</a>')
-      }
+      currentNewEntry.append('<div class="col-xs-1"><a href="#" class="delete">Delete</a></div>')
 
+      var newQueryOptions = '<div class="row center queryStringMatcher" id="blankQueryString">' +
+                            '  <div class="col-xs-4">' +
+                            '        <input type="text" class="key" placeholder="Query key"/>' +
+                            '      </div>' +
+                            '      <div class="col-xs-3">' +
+                            '        <select class="matcher">' +
+                            '          <option value="equalTo">equalTo</option>' +
+                            '          <option value="matches">matches</option>' +
+                            '          <option value="doesNotMatch">doesNotMatch</option>' +
+                            '          <option value="contains">contains</option>' +
+                            '        </select>' +
+                            '      </div>' +
+                            '      <div class="col-xs-4">' +
+                            '        <input type="text" class="value" placeholder="Query value" />' +
+                            '      </div>' +
+                            ' </div>' +
+                            '</div>';
+
+      currentNewEntry.after(newQueryOptions);
       currentNewEntry.removeAttr('id');
-      var newHeaderOption = '<li class="queryStringMatcher" id="blankQueryString"><input type="text" class="key" /><select class="matcher"><option>equalTo</option><option>matches</option><option>doesNotMatch</option><option>contains</option></select><input type="text" class="value" /><a href="#" class="delete">Delete</a></li>'
-
-      $('#requestQueryString').append(newHeaderOption);
     });
 
     $(document).on('click', '#responseHeaders a', function(event){
@@ -160,7 +170,7 @@ var generateRequestHeadersArray = function(){
 };
 
 var generateQueryStringArray = function(){
-  var headers = $('#requestQueryString li');
+  var headers = $('.queryStringMatcher');
   var arrayToReturn = [];
   var arrayCount = 0;
 
@@ -205,16 +215,24 @@ var clearForm = function(){
   $('#requestType').val('PATH');
   $('#requestMethod').val('GET');
 
-  $('#requestQueryString').html('<li class="queryStringMatcher" id="blankQueryString">' +
-                             '<input type="text" class="key" />' +
-                             '<select class="matcher">' +
-                             '  <option value="equalTo">equalTo</option>' +
-                             '  <option value="matches">matches</option>' +
-                             '  <option value="doesNotMatch">doesNotMatch</option>' +
-                             '  <option value="contains">contains</option>' +
-                             '</select>' +
-                             '<input type="text" class="value" />' +
-                             '</li>');
+  $("div").remove(".queryStringMatcher");
+
+  $('#pathRow').after('<div class="row center queryStringMatcher" id="blankQueryString">' +
+                      '    <div class="col-xs-4">' +
+                      '      <input type="text" class="key" placeholder="Query key"/>' +
+                      '    </div>' +
+                      '    <div class="col-xs-3">' +
+                      '      <select class="matcher">' +
+                      '        <option value="equalTo">equalTo</option>' +
+                      '        <option value="matches">matches</option>' +
+                      '        <option value="doesNotMatch">doesNotMatch</option>' +
+                      '        <option value="contains">contains</option>' +
+                      '      </select>' +
+                      '    </div>' +
+                      '    <div class="col-xs-4">' +
+                      '      <input type="text" class="value" placeholder="Query value" />' +
+                      '    </div>' +
+                      '  </div>');
 
   $('#requestHeaders').html('<li class="requestHeader" id="blankRequestHeader">' +
                            '<input type="text" class="key" />' +

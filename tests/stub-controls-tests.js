@@ -75,11 +75,11 @@ describe('Wiremock extension - stub view controls', function(){
   });
 
   it('should create an additional request query string entry when I focus on a query string field', function(done) {
-    dom.$('#requestQueryString #blankQueryString .key').focus();
-    dom.$('#requestQueryString #blankQueryString .value').focus();
+    dom.$('#blankQueryString .key').focus();
+    dom.$('#blankQueryString .value').focus();
 
     expect(dom.$('.queryStringMatcher').length).to.equal(3);
-    expect(dom.$('.queryStringMatcher a').length).to.equal(3);
+    expect(dom.$('.queryStringMatcher a').length).to.equal(2);
     expect(dom.$('#blankQueryString').length).to.equal(1);
 
     dom.$('.queryStringMatcher a')[0].click();
@@ -89,7 +89,7 @@ describe('Wiremock extension - stub view controls', function(){
   });
 
   it('should delete a request header when clicking on the delete button', function(done){
-    dom.$('#requestQueryString #blankQueryString .key').focus();
+    dom.$('#blankQueryString .key').focus();
 
     dom.$('.queryStringMatcher a')[0].click();
     expect(dom.$('.queryStringMatcher').length).to.equal(1);
@@ -214,7 +214,7 @@ describe('Wiremock stub integration check', function(){
     dom.$('.queryStringMatcher .matcher').val('equalTo');
     dom.$('.queryStringMatcher .value').val('value1');
 
-    dom.$('#requestQueryString #blankQueryString .key').focus();
+    dom.$('#blankQueryString .key').focus();
 
     dom.$('.queryStringMatcher .key').eq(1).val('key2');
     dom.$('.queryStringMatcher .matcher').eq(1).val('matches');

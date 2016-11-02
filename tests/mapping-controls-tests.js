@@ -78,18 +78,22 @@ describe('Wiremock extension - mapping view controls', function(){
         expect(dom.$('#priority').val()).to.equal('2');
 
         // Query string matcher values
-        expect(dom.$('#requestQueryString > li:nth-child(1) .key').val()).to.equal('query1');
-        expect(dom.$('#requestQueryString > li:nth-child(1) .matcher').val()).to.equal('equalTo');
-        expect(dom.$('#requestQueryString > li:nth-child(1) .value').val()).to.equal('abc');
-        expect(dom.$('#requestQueryString > li:nth-child(2) .key').val()).to.equal('query2');
-        expect(dom.$('#requestQueryString > li:nth-child(2) .matcher').val()).to.equal('matches');
-        expect(dom.$('#requestQueryString > li:nth-child(2) .value').val()).to.equal('def');
-        expect(dom.$('#requestQueryString > li:nth-child(3) .key').val()).to.equal('query3');
-        expect(dom.$('#requestQueryString > li:nth-child(3) .matcher').val()).to.equal('doesNotMatch');
-        expect(dom.$('#requestQueryString > li:nth-child(3) .value').val()).to.equal('ghi');
-        expect(dom.$('#requestQueryString > li:nth-child(4) .key').val()).to.equal('query4');
-        expect(dom.$('#requestQueryString > li:nth-child(4) .matcher').val()).to.equal('contains');
-        expect(dom.$('#requestQueryString > li:nth-child(4) .value').val()).to.equal('jkl');
+        var queryStringRows = dom.$('#form > .queryStringMatcher .key').map(function(){return dom.$(this).val();}).get();
+        var queryStringMatchers = dom.$('#form > .queryStringMatcher .matcher').map(function(){return dom.$(this).val();}).get();
+        var queryStringValues = dom.$('#form > .queryStringMatcher .value').map(function(){return dom.$(this).val();}).get();
+
+        expect(queryStringRows[0]).to.equal('query1');
+        expect(queryStringMatchers[0]).to.equal('equalTo');
+        expect(queryStringValues[0]).to.equal('abc');
+        expect(queryStringRows[1]).to.equal('query2');
+        expect(queryStringMatchers[1]).to.equal('matches');
+        expect(queryStringValues[1]).to.equal('def');
+        expect(queryStringRows[2]).to.equal('query3');
+        expect(queryStringMatchers[2]).to.equal('doesNotMatch');
+        expect(queryStringValues[2]).to.equal('ghi');
+        expect(queryStringRows[3]).to.equal('query4');
+        expect(queryStringMatchers[3]).to.equal('contains');
+        expect(queryStringValues[3]).to.equal('jkl');
 
         // Headers matcher values
         expect(dom.$('#requestHeaders > li:nth-child(1) .key').val()).to.equal('header1');

@@ -6,75 +6,118 @@
     <script src="payload-generator.js"></script>
     <script src="stub-controls.js"></script>
     <script src="mapping-controls.js"></script>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
     <style>
       html, body {
         height: 600px;
         width: 485px;
       }
+
+      .view {
+        font-size: 12px;
+        text-align:center;
+      }
+
+      .center{
+        display: flex;
+    align-items: center;
+      }
     </style>
   </head>
   <body>
-    <h1>Wiremock extension</h1>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Wiremock</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li><a href="#" id="stubControl">Editor</a></li>
+            <li><a href="#" id="mappingControl">Mappings</a></li>
+            <li><a href="#" id="aboutControl">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    <input type="button" id="stubControl" value="Create stub"/>
-    <input type="button" id="mappingControl" value="View mappings"/>
-    <input type="button" id="aboutControl" value="About"/>
+    <div class=".container-fluid">
+    </div>
 
-    <div id="mappingView">
+    <div id="mappingView" class="view">
       <h2>Mappings</h2>
       <ul id="mappings">
       </ul>
     </div>
 
-    <div id="aboutView">
+    <div id="aboutView" class="view">
       <h2>About</h2>
     </div>
 
-    <div id="stubView">
-      <div id="form">
-        <h2>Create stub</h2>
-        <p id="status"></p>
+    <div id="stubView" class="view">
+      <div class="container-fluid" id="form">
+        <div class="row center" id="pathRow">
+          <div class="col-xs-5">
+            <input type="text" id="requestPath" style="width: 190px" placeholder="Path"/>
+          </div>
+          <div class="col-xs-2">
+            <select id="requestType">
+              <option value="PATH">path</option>
+              <option value="REGEX">regex</option>
+              <option value="PARTIAL">partial</option>
+            </select>
+          </div>
+          <div class="col-xs-3">
+            <select id="requestMethod">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="PATCH">PATCH</option>
+              <option value="DELETE">DELETE</option>
+              <option value="COPY">COPY</option>
+              <option value="HEAD">HEAD</option>
+              <option value="OPTIONS">OPTIONS</option>
+              <option value="LINK">LINK</option>
+              <option value="UNLINK">UNLINK</option>
+              <option value="PURGE">PURGE</option>
+              <option value="LOCK">LOCK</option>
+              <option value="UNLOCK">UNLOCK</option>
+              <option value="PROPFIND">PROPFIND</option>
+              <option value="VIEW">VIEW</option>
+            </select>
+          </div>
+          <div class="col-xs-1">
+            <input type="text" id="priority" placeholder="Priority" style="width: 50px"/>
+          </div>
+        </div>
 
-        <input type="text" id="requestPath"/>
-        <select id="requestType">
-          <option value="PATH">path</option>
-          <option value="REGEX">regex</option>
-          <option value="PARTIAL">partial</option>
-        </select>
-
-        <select id="requestMethod">
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-          <option value="PUT">PUT</option>
-          <option value="PATCH">PATCH</option>
-          <option value="DELETE">DELETE</option>
-          <option value="COPY">COPY</option>
-          <option value="HEAD">HEAD</option>
-          <option value="OPTIONS">OPTIONS</option>
-          <option value="LINK">LINK</option>
-          <option value="UNLINK">UNLINK</option>
-          <option value="PURGE">PURGE</option>
-          <option value="LOCK">LOCK</option>
-          <option value="UNLOCK">UNLOCK</option>
-          <option value="PROPFIND">PROPFIND</option>
-          <option value="VIEW">VIEW</option>
-        </select>
-
-        <input type="text" id="priority" />
-
-        <p>Query string matcher</p>
-        <ul id="requestQueryString">
-          <li class="queryStringMatcher" id="blankQueryString">
-            <input type="text" class="key" />
+        <div class="row center queryStringMatcher" id="blankQueryString">
+          <div class="col-xs-4">
+            <input type="text" class="key" placeholder="Query key"/>
+          </div>
+          <div class="col-xs-3">
             <select class="matcher">
               <option value="equalTo">equalTo</option>
               <option value="matches">matches</option>
               <option value="doesNotMatch">doesNotMatch</option>
               <option value="contains">contains</option>
             </select>
-            <input type="text" class="value" />
-          </li>
-        </ul>
+          </div>
+          <div class="col-xs-4">
+            <input type="text" class="value" placeholder="Query value" />
+          </div>
+        </div>
+      </div>
+
+      <div id="form">
+        <p id="status"></p>
+
+
 
         <br />
 
