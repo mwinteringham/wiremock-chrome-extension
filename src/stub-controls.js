@@ -111,6 +111,7 @@ $(document).ready(function() {
                             '   <div class="col-xs-5">' +
                             '    <input type="text" class="key" placeholder="Header key"/>' +
                             '  </div>' +
+                            '  <div class="col-xs-1"></div>' +
                             '  <div class="col-xs-5">' +
                             '    <input type="text" class="value" placeholder="Header value"/>' +
                             '  </div>' +

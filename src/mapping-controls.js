@@ -26,8 +26,6 @@ $(document).ready(function() {
     $('#mappingView').hide();
     $('#stubView').show();
 
-    console.log($(this).parent().next().text())
-
     var payload = JSON.parse($(this).parent().next().text());
 
     if(payload.request.url){
@@ -129,6 +127,6 @@ var buildMappingList = function(){
     }
   })
   .fail(function(error) {
-    $('#mappings').text(JSON.stringify(error));
+    $('#mappings').append('<div class="alert alert-danger">I\'m not able to communicate with Wiremock.  Is it setup?</div>');
   })
 }
