@@ -43,22 +43,18 @@ describe('Wiremock extension - stub view controls', function(){
   });
 
   it('should create an additional request header entry when I focus on a header field', function(done) {
-    dom.$('#requestHeaders #blankRequestHeader .key').focus();
-    dom.$('#requestHeaders #blankRequestHeader .value').focus();
+    dom.$('#blankRequestHeader .key').focus();
+    dom.$('#blankRequestHeader .value').focus();
 
     expect(dom.$('.requestHeader').length).to.equal(3);
-    expect(dom.$('.requestHeader a').length).to.equal(3);
+    expect(dom.$('.requestHeader a').length).to.equal(2);
     expect(dom.$('#blankRequestHeader').length).to.equal(1);
-
-    // To check - I can delete this:
-    dom.$('.requestHeader a')[0].click();
-    dom.$('.requestHeader a')[0].click();
 
     done();
   });
 
   it('should delete a request header when clicking on the delete button', function(done){
-    dom.$('#requestHeaders #blankRequestHeader .key').focus();
+    dom.$('#blankRequestHeader .key').focus();
 
     dom.$('.requestHeader a')[0].click();
     expect(dom.$('.requestHeader').length).to.equal(1);
@@ -124,11 +120,11 @@ describe('Wiremock extension - stub view controls', function(){
   });
 
   it('should create an additional response header entry when I focus on a response header', function(done) {
-    dom.$('#responseHeaders #blankResponseHeader .key').focus();
-    dom.$('#responseHeaders #blankResponseHeader .value').focus();
+    dom.$('#blankResponseHeader .key').focus();
+    dom.$('#blankResponseHeader .value').focus();
 
     expect(dom.$('.responseHeader').length).to.equal(3);
-    expect(dom.$('.responseHeader a').length).to.equal(3);
+    expect(dom.$('.responseHeader a').length).to.equal(2);
     expect(dom.$('#blankResponseHeader').length).to.equal(1);
 
     dom.$('.responseHeader a')[0].click();
@@ -138,7 +134,7 @@ describe('Wiremock extension - stub view controls', function(){
   });
 
   it('should delete a request header when clicking on the delete button', function(done){
-    dom.$('#responseHeaders #blankResponseHeader .key').focus();
+    dom.$('#blankResponseHeader .key').focus();
 
     dom.$('.responseHeader a')[0].click();
     expect(dom.$('.responseHeader').length).to.equal(1);
@@ -157,7 +153,7 @@ describe('Wiremock extension - stub view controls', function(){
 
 describe('Wiremock extension - stub view edit controls', function(){
 
-  it('should turn into edit mode on submission of a succesfull stub', function(done){
+  it('should turn into edit mode on submission of a succesful stub', function(done){
     this.timeout(3000);
 
     dom.$('#requestPath').val('/path/test/1');
@@ -165,8 +161,8 @@ describe('Wiremock extension - stub view edit controls', function(){
     dom.$('#makeRequest').click();
 
     setTimeout(function(){
-      expect(dom.$('#newForm').val()).to.equal('New stub');
-      expect(dom.$('#status').text()).to.equal('Stub created!')
+      expect(dom.$('#newForm').text()).to.equal('Create new stub');
+      expect(dom.$('#status').text()).to.equal('Stub created')
       expect(dom.$('#editId').val().length).to.not.equal(0);
 
       done();
@@ -224,7 +220,7 @@ describe('Wiremock stub integration check', function(){
     dom.$('.requestHeader .matcher').val('equalTo');
     dom.$('.requestHeader .value').val('value1');
 
-    dom.$('#requestHeaders #blankRequestHeader .key').focus();
+    dom.$('#blankRequestHeader .key').focus();
 
     dom.$('.requestHeader .key').eq(1).val('key2');
     dom.$('.requestHeader .matcher').eq(1).val('matches');
@@ -248,7 +244,7 @@ describe('Wiremock stub integration check', function(){
     dom.$('.responseHeader .key').val('key1');
     dom.$('.responseHeader .value').val('value1');
 
-    dom.$('#responseHeaders #blankResponseHeader .key').focus();
+    dom.$('#blankResponseHeader .key').focus();
 
     dom.$('.responseHeader .key').eq(1).val('key2');
     dom.$('.responseHeader .value').eq(1).val('value2');

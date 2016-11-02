@@ -22,7 +22,7 @@ $(document).ready(function() {
 
   $(document).on('click', '.editMapping', function(event) {
     clearForm();
-    
+
     $('#mappingView').hide();
     $('#stubView').show();
 
@@ -76,9 +76,9 @@ $(document).ready(function() {
 
     for (var responseKey in payload.response.headers) {
       if (payload.response.headers.hasOwnProperty(responseKey)) {
-        $('#responseHeaders .key').val(responseKey);
-        $('#responseHeaders .value').val(payload.response.headers[responseKey]);
-        $('#responseHeaders input').focus();
+        $('#blankResponseHeader .key').val(responseKey);
+        $('#blankResponseHeader .value').val(payload.response.headers[responseKey]);
+        $('#blankResponseHeader input').focus();
       }
     }
 

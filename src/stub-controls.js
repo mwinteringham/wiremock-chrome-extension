@@ -31,27 +31,36 @@ $(document).ready(function() {
                    });
     });
 
-    $(document).on('click', '#requestHeaders a', function(event){
+    $(document).on('click', '.requestHeader a', function(event){
       event.preventDefault();
 
-      $(this).parent().remove();
-
-      if($('.requestHeader').length === 1){
-        $('#blankRequestHeader .delete').remove();
-      }
+      $(this).parent().parent().remove();
     });
 
-    $(document).on('focus', '#blankRequestHeader > input', function(event){
+    $(document).on('focus', '#blankRequestHeader input', function(event){
       var currentNewEntry = $('#blankRequestHeader');
 
-      if($('#requestHeaders li').length === 1){
-        currentNewEntry.append('<a href="#" class="delete">Delete</a>')
-      }
+      currentNewEntry.append('<div class="col-xs-1"><a href="#" class="delete glyphicon glyphicon-remove"></a></div>')
 
+      var newHeaderOption = '<div class="row center requestHeader" id="blankRequestHeader">' +
+                            '   <div class="col-xs-4">' +
+                            '    <input type="text" class="key" placeholder="Header key"/>' +
+                            '  </div>' +
+                            '  <div class="col-xs-3">' +
+                            '    <select class="matcher">' +
+                            '      <option value="equalTo">equalTo</option>' +
+                            '      <option value="matches">matches</option>' +
+                            '      <option value="doesNotMatch">doesNotMatch</option>' +
+                            '      <option value="contains">contains</option>' +
+                            '    </select>' +
+                            '  </div>' +
+                            '  <div class="col-xs-4">' +
+                            '    <input type="text" class="value" placeholder="Header value" />' +
+                            '  </div>' +
+                            '</div>';
+
+      currentNewEntry.after(newHeaderOption)
       currentNewEntry.removeAttr('id');
-      var newHeaderOption = '<li class="requestHeader" id="blankRequestHeader"><input type="text" class="key" /><select class="matcher"><option>equalTo</option><option>matches</option><option>doesNotMatch</option><option>contains</option></select><input type="text" class="value" /><a href="#" class="delete">Delete</a></li>'
-
-      $('#requestHeaders').append(newHeaderOption);
     });
 
     $(document).on('click', '.queryStringMatcher a', function(event){
@@ -63,7 +72,7 @@ $(document).ready(function() {
     $(document).on('focus', '#blankQueryString input', function(event){
       var currentNewEntry = $('#blankQueryString');
 
-      currentNewEntry.append('<div class="col-xs-1"><a href="#" class="delete">Delete</a></div>')
+      currentNewEntry.append('<div class="col-xs-1"><a href="#" class="delete glyphicon glyphicon-remove"></a></div>')
 
       var newQueryOptions = '<div class="row center queryStringMatcher" id="blankQueryString">' +
                             '  <div class="col-xs-4">' +
@@ -87,27 +96,28 @@ $(document).ready(function() {
       currentNewEntry.removeAttr('id');
     });
 
-    $(document).on('click', '#responseHeaders a', function(event){
+    $(document).on('click', '.responseHeader a', function(event){
       event.preventDefault();
 
-      $(this).parent().remove();
-
-      if($('.responseHeader').length === 1){
-        $('#blankResponseHeader .delete').remove();
-      }
+      $(this).parent().parent().remove();
     });
 
-    $(document).on('focus', '#blankResponseHeader > input', function(event){
+    $(document).on('focus', '#blankResponseHeader input', function(event){
       var currentNewEntry = $('#blankResponseHeader');
 
-      if($('#responseHeaders li').length === 1){
-        currentNewEntry.append('<a href="#" class="delete">Delete</a>')
-      }
+      currentNewEntry.append('<div class="col-xs-1"><a href="#" class="delete glyphicon glyphicon-remove"></a></div>')
 
+      var newHeaderOption = '<div class="row center responseHeader" id="blankResponseHeader">' +
+                            '   <div class="col-xs-5">' +
+                            '    <input type="text" class="key" placeholder="Header key"/>' +
+                            '  </div>' +
+                            '  <div class="col-xs-5">' +
+                            '    <input type="text" class="value" placeholder="Header value"/>' +
+                            '  </div>' +
+                            '</div>';
+
+      currentNewEntry.after(newHeaderOption)
       currentNewEntry.removeAttr('id');
-      var newHeaderOption = '<li class="responseHeader" id="blankResponseHeader"><input type="text" class="key" /><input type="text" class="value" /><a href="#" class="delete">Delete</a></li>'
-
-      $('#responseHeaders').append(newHeaderOption);
     });
 
     $(document).on('click', '#newForm', function(){
@@ -123,10 +133,12 @@ var postToMappingsNew = function(payload){
       ContentType: 'application/json; charset=UTF-8',
       data: JSON.stringify(payload),
       success: function (response) {
-        $('#makeRequest').val("Update");
-        $('#newForm').val("New stub");
-        $('#status').text("Stub created!");
         getLatestCreatedId();
+        $('#makeRequest').text("Update");
+        $('#makeRequest').removeClass('btn-success');
+        $('#makeRequest').addClass('btn-warning');
+        $('#newForm').text('Create new stub');
+        $('#status').text('Stub created').delay(5000).fadeOut();
       }
   });
 };
@@ -138,7 +150,7 @@ var postMappingsToEdit = function(id, payload){
       ContentType: 'application/json; charset=UTF-8',
       data: JSON.stringify(payload),
       success: function (response) {
-        $('#status').text("Stub updated!");
+        $('#status').text('Stub updated!');
       }
   });
 };
@@ -150,7 +162,7 @@ var getLatestCreatedId = function(){
 }
 
 var generateRequestHeadersArray = function(){
-  var headers = $('#requestHeaders li');
+  var headers = $('.requestHeader');
   var arrayToReturn = [];
   var arrayCount = 0;
 
@@ -190,7 +202,7 @@ var generateQueryStringArray = function(){
 };
 
 var generateResponseHeadersArray = function(){
-  var headers = $('#responseHeaders li');
+  var headers = $('.responseHeader');
   var arrayToReturn = [];
   var arrayCount = 0;
 
@@ -216,6 +228,8 @@ var clearForm = function(){
   $('#requestMethod').val('GET');
 
   $("div").remove(".queryStringMatcher");
+  $("div").remove(".requestHeader");
+  $("div").remove(".responseHeader");
 
   $('#pathRow').after('<div class="row center queryStringMatcher" id="blankQueryString">' +
                       '    <div class="col-xs-4">' +
@@ -234,23 +248,35 @@ var clearForm = function(){
                       '    </div>' +
                       '  </div>');
 
-  $('#requestHeaders').html('<li class="requestHeader" id="blankRequestHeader">' +
-                           '<input type="text" class="key" />' +
-                           '<select class="matcher">' +
-                           '  <option value="equalTo">equalTo</option>' +
-                           '  <option value="matches">matches</option>' +
-                           '  <option value="doesNotMatch">doesNotMatch</option>' +
-                           '  <option value="contains">contains</option>' +
-                           '</select>' +
-                           '<input type="text" class="value" />' +
-                           '</li>')
+  $('#blankQueryString').after('<div class="row center requestHeader" id="blankRequestHeader">' +
+                               '    <div class="col-xs-4">' +
+                               '      <input type="text" class="key" placeholder="Header key"/>' +
+                               '    </div>' +
+                               '    <div class="col-xs-3">' +
+                               '      <select class="matcher">' +
+                               '        <option value="equalTo">equalTo</option>' +
+                               '        <option value="matches">matches</option>' +
+                               '        <option value="doesNotMatch">doesNotMatch</option>' +
+                               '        <option value="contains">contains</option>' +
+                               '      </select>' +
+                               '    </div>' +
+                               '    <div class="col-xs-4">' +
+                               '      <input type="text" class="value" placeholder="Header value" />' +
+                               '    </div>' +
+                               '  </div>')
 
-  $('#responseHeaders').html('<li class="responseHeader" id="blankResponseHeader">' +
-                                '<input type="text" class="key" />' +
-                                '<input type="text" class="value" />' +
-                              '</li>');
+  $('#statusRow').after('<div class="row center responseHeader" id="blankResponseHeader">' +
+                        '    <div class="col-xs-5">' +
+                        '      <input type="text" class="key" placeholder="Header key"/>' +
+                        '    </div>' +
+                        '    <div class="col-xs-5">' +
+                        '      <input type="text" class="value" placeholder="Header value"/>' +
+                        '    </div>' +
+                        '</div>');
 
-  $('#makeRequest').val("Create");
-  $('#newForm').val("Clear");
+  $('#makeRequest').removeClass('btn-warning');
+  $('#makeRequest').addClass('btn-success');
+  $('#makeRequest').text("Create");
+  $('#newForm').text("Clear");
   $('#editId').val()
 }

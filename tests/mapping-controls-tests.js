@@ -96,27 +96,33 @@ describe('Wiremock extension - mapping view controls', function(){
         expect(queryStringValues[3]).to.equal('jkl');
 
         // Headers matcher values
-        expect(dom.$('#requestHeaders > li:nth-child(1) .key').val()).to.equal('header1');
-        expect(dom.$('#requestHeaders > li:nth-child(1) .matcher').val()).to.equal('equalTo');
-        expect(dom.$('#requestHeaders > li:nth-child(1) .value').val()).to.equal('123');
-        expect(dom.$('#requestHeaders > li:nth-child(2) .key').val()).to.equal('header2');
-        expect(dom.$('#requestHeaders > li:nth-child(2) .matcher').val()).to.equal('matches');
-        expect(dom.$('#requestHeaders > li:nth-child(2) .value').val()).to.equal('456');
-        expect(dom.$('#requestHeaders > li:nth-child(3) .key').val()).to.equal('header3');
-        expect(dom.$('#requestHeaders > li:nth-child(3) .matcher').val()).to.equal('doesNotMatch');
-        expect(dom.$('#requestHeaders > li:nth-child(3) .value').val()).to.equal('789');
-        expect(dom.$('#requestHeaders > li:nth-child(4) .key').val()).to.equal('header4');
-        expect(dom.$('#requestHeaders > li:nth-child(4) .matcher').val()).to.equal('contains');
-        expect(dom.$('#requestHeaders > li:nth-child(4) .value').val()).to.equal('135');
+        var headerStringRows = dom.$('#form > .requestHeader .key').map(function(){return dom.$(this).val();}).get();
+        var headerStringMatchers = dom.$('#form > .requestHeader .matcher').map(function(){return dom.$(this).val();}).get();
+        var headerStringValues = dom.$('#form > .requestHeader .value').map(function(){return dom.$(this).val();}).get();
+
+        expect(headerStringRows[0]).to.equal('header1');
+        expect(headerStringMatchers[0]).to.equal('equalTo');
+        expect(headerStringValues[0]).to.equal('123');
+        expect(headerStringRows[1]).to.equal('header2');
+        expect(headerStringMatchers[1]).to.equal('matches');
+        expect(headerStringValues[1]).to.equal('456');
+        expect(headerStringRows[2]).to.equal('header3');
+        expect(headerStringMatchers[2]).to.equal('doesNotMatch');
+        expect(headerStringValues[2]).to.equal('789');
+        expect(headerStringRows[3]).to.equal('header4');
+        expect(headerStringMatchers[3]).to.equal('contains');
+        expect(headerStringValues[3]).to.equal('135');
 
         // Request body matcher value
         expect(dom.$('#requestPayload').val()).to.equal('{\n \"body\":\"matcher\"\n}');
 
         // Response values
-        expect(dom.$('#responseHeaders > li:nth-child(1) .key').val()).to.equal('responseheader1');
-        expect(dom.$('#responseHeaders > li:nth-child(1) .value').val()).to.equal('abc');
-
         expect(dom.$('#statusCode').val()).to.equal('200');
+
+        // Response headers
+        expect(dom.$('.responseHeader .key').val()).to.equal('responseheader1');
+        expect(dom.$('.responseHeader .value').val()).to.equal('abc');
+
         expect(dom.$('#responsePayload').val()).to.equal('{\n \"response\":\"body\"\n}');
 
         expect(dom.$('#makeRequest').val()).to.equal('Update');

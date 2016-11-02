@@ -21,7 +21,11 @@
 
       .center{
         display: flex;
-    align-items: center;
+        align-items: center;
+      }
+
+      .responseHeader input{
+        width: 200px;
       }
     </style>
   </head>
@@ -34,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Wiremock</a>
+          <a class="navbar-brand" href="#">Wiremock extension</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -91,9 +95,6 @@
               <option value="VIEW">VIEW</option>
             </select>
           </div>
-          <div class="col-xs-1">
-            <input type="text" id="priority" placeholder="Priority" style="width: 50px"/>
-          </div>
         </div>
 
         <div class="row center queryStringMatcher" id="blankQueryString">
@@ -112,59 +113,71 @@
             <input type="text" class="value" placeholder="Query value" />
           </div>
         </div>
-      </div>
 
-      <div id="form">
-        <p id="status"></p>
-
-
-
-        <br />
-
-        <p>Header matcher</p>
-        <ul id="requestHeaders">
-          <li class="requestHeader" id="blankRequestHeader">
-            <input type="text" class="key" />
+        <div class="row center requestHeader" id="blankRequestHeader">
+          <div class="col-xs-4">
+            <input type="text" class="key" placeholder="Header key"/>
+          </div>
+          <div class="col-xs-3">
             <select class="matcher">
               <option value="equalTo">equalTo</option>
               <option value="matches">matches</option>
               <option value="doesNotMatch">doesNotMatch</option>
               <option value="contains">contains</option>
             </select>
-            <input type="text" class="value" />
-          </li>
-        </ul>
+          </div>
+          <div class="col-xs-4">
+            <input type="text" class="value" placeholder="Header value" />
+          </div>
+        </div>
 
-        <br />
-
-        <p>Request body matcher</p>
-        <textarea id="requestPayload" rows="4" cols="50"></textarea>
+        <div class="row">
+          <div class="col-xs-12">
+            <textarea id="requestPayload" rows="8" cols="72" placeholder="Request payload"></textarea>
+          </div>
+        </div>
 
         <hr />
 
-        <input type="text" id="statusCode" />
+        <div class="row center" id="statusRow">
+          <div class="col-xs-2">
+            <input type="text" id="statusCode" placeholder="Status code"/>
+          </div>
+          <div class="col-xs-8"></div>
+          <div class="col-xs-2">
+            <input type="text" id="priority" placeholder="Priority" style="width: 50px"/>
+          </div>
+        </div>
 
-        <br />
+        <div class="row center responseHeader" id="blankResponseHeader">
+          <div class="col-xs-5">
+            <input type="text" class="key" placeholder="Header key"/>
+          </div>
+          <div class="col-xs-5">
+            <input type="text" class="value" placeholder="Header value"/>
+          </div>
+        </div>
 
-        <p>Response header matcher</p>
-        <ul id="responseHeaders">
-          <li class="responseHeader" id="blankResponseHeader">
-            <input type="text" class="key" />
-            <input type="text" class="value" />
-          </li>
-        </ul>
+        <div class="row center">
+          <div class="col-xs-12">
+            <textarea id="responsePayload" rows="8" cols="72" placeholder="Response payload"></textarea>
+          </div>
+        </div>
 
-        <br />
-
-        <textarea id="responsePayload" rows="4" cols="50"></textarea>
-
-        <br />
-
-        <input type="hidden" id="editId" value="" />
+        <div class="row center">
+          <div class="col-xs-2">
+            <input type="hidden" id="editId" value="" />
+            <button type="button" id="makeRequest" class="btn btn-success">Create</button>
+          </div>
+          <div class="col-xs-2">
+            <button type="button" id="newForm" class="btn btn-danger">Clear</button>
+          </div>
+          <div class="col-xs-8">
+            <h5 style="text-align: right" id="status"></h5>
+          </div>
+        </div>
 
       </div>
-      <input type="button" id="makeRequest" value="Create" />
-      <input type="button" id="newForm" value="Clear" />
     </div>
 
   </body>
