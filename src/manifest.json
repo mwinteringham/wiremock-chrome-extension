@@ -1,16 +1,19 @@
 {
     "manifest_version": 2,
     "name": "Wiremock extension",
-    "description": "Chrome extension for programming Wiremock",
+    "description": "Chrome extension for managing stubs within your Wiremock instance.  For more details on Wiremock visit http://wiremock.org/",
     "homepage_url": "https://github.com/mwinteringham/wiremock-chrome-extension",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "browser_action": {
-        "default_title": "Click here!",
+        "default_title": "Let's get stubbing!",
         "default_popup": "index.html"
     },
     "permissions": [
         "tabs",
         "http://*/*",
         "https://*/*"
-    ]
+    ],
+    "icons": { "16": "assets/wiremock-concept-icon-01.png",
+           "48": "assets/wiremock-concept-icon-01.png",
+          "128": "assets/wiremock-concept-icon-01.png" }
 }
