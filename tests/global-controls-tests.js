@@ -22,7 +22,7 @@ describe('Wiremock extension - global controls', function(){
   it('should have controls to switch between stub, mappings and about view', function(done){
     expect(dom.$('#stubControl').length).to.equal(1);
     expect(dom.$('#mappingControl').length).to.equal(1);
-    expect(dom.$('#aboutControl').length).to.equal(1);
+    expect(dom.$('#settingsControl').length).to.equal(1);
 
     done();
   });
@@ -38,7 +38,7 @@ describe('Wiremock extension - global controls', function(){
   });
 
   it('should show the about view when about is clicked on', function(done) {
-    dom.$('#aboutControl').click();
+    dom.$('#settingsControl').click();
 
     expect(dom.$('#stubView:visible').length).to.equal(0);
     expect(dom.$('#mappingView:visible').length).to.equal(0);
@@ -48,7 +48,7 @@ describe('Wiremock extension - global controls', function(){
   });
 
   it('should show the stub view when stub is clicked on', function(done) {
-    dom.$('#aboutControl').click();
+    dom.$('#settingsControl').click();
     dom.$('#stubControl').click();
 
     expect(dom.$('#stubView:visible').length).to.equal(1);

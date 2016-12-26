@@ -3,6 +3,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="global-controls.js"></script>
+    <script src="settings-controls.js"></script>
     <script src="payload-generator.js"></script>
     <script src="stub-controls.js"></script>
     <script src="mapping-controls.js"></script>
@@ -56,6 +57,28 @@
       .requestHeader .value {
         width: 155px;
       }
+
+      #host {
+        width: 100%;
+      }
+
+      #port {
+        width: 100%;
+      }
+
+      .settingsHeader {
+        font-weight: bold;
+        margin-left: -2px;
+      }
+
+      #updateWiremockHost {
+        margin: 5px -12px 0px 0px;
+      }
+
+      #updateWiremockMessage {
+        font-weight: bold;
+        color: red;
+      }
     </style>
   </head>
   <body>
@@ -73,7 +96,7 @@
           <ul class="nav navbar-nav">
             <li><a href="#" id="stubControl" data-toggle="collapse" data-target=".navbar-collapse">Editor</a></li>
             <li><a href="#" id="mappingControl" data-toggle="collapse" data-target=".navbar-collapse">Mappings</a></li>
-            <li><a href="#" id="aboutControl" data-toggle="collapse" data-target=".navbar-collapse">About</a></li>
+            <li><a href="#" id="settingsControl" data-toggle="collapse" data-target=".navbar-collapse">Settings</a></li>
           </ul>
         </div>
       </div>
@@ -88,7 +111,36 @@
     </div>
 
     <div id="aboutView" class="view">
-      <h2>About</h2>
+      <div class="container-fluid">
+        <div class="row center">
+          <div class="col-xs-3">
+            <p class="settingsHeader">Wiremock host</p>
+          </div>
+          <div class="col-xs-9"></div>
+        </div>
+
+        <div class="row center">
+          <div class="col-xs-8">
+            <input type="text" id="host" placeholder="Host" />
+          </div>
+          <div class="col-xs-1">
+            <span>:</span>
+          </div>
+          <div class="col-xs-3">
+            <input type="text" id="port" placeholder="Port" />
+          </div>
+        </div>
+
+        <div class="row center">
+          <div class="col-xs-2">
+            <span id="updateWiremockMessage"></span>
+          </div>
+          <div class="col-xs-7"></div>
+          <div class="col-xs-3">
+            <button type="button" id="updateWiremockHost" class="btn btn-success">Set host</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="stubView" class="view">

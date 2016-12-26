@@ -11,7 +11,8 @@
     "permissions": [
         "tabs",
         "http://*/*",
-        "https://*/*"
+        "https://*/*",
+        "storage"
     ],
     "icons": { "16": "assets/wiremock-concept-icon-01.png",
            "48": "assets/wiremock-concept-icon-01.png",

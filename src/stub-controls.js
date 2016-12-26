@@ -129,13 +129,13 @@ $(document).ready(function() {
 
 var postToMappingsNew = function(payload){
   $.ajax({
-      url: "http://localhost:8080/__admin/mappings/new",
-      type: "POST",
+      url: 'http://' + host + ':' + port + '/__admin/mappings/new',
+      type: 'POST',
       ContentType: 'application/json; charset=UTF-8',
       data: JSON.stringify(payload),
       success: function (response) {
         getLatestCreatedId();
-        $('#makeRequest').text("Update");
+        $('#makeRequest').text('Update');
         $('#makeRequest').removeClass('btn-success');
         $('#makeRequest').addClass('btn-warning');
         $('#newForm').text('Create new stub');
@@ -146,8 +146,8 @@ var postToMappingsNew = function(payload){
 
 var postMappingsToEdit = function(id, payload){
   $.ajax({
-      url: "http://localhost:8080/__admin/mappings/" + id,
-      type: "PUT",
+      url: 'http://' + host + ':' + port + '/__admin/mappings/' + id,
+      type: 'PUT',
       ContentType: 'application/json; charset=UTF-8',
       data: JSON.stringify(payload),
       success: function (response) {
@@ -157,7 +157,7 @@ var postMappingsToEdit = function(id, payload){
 };
 
 var getLatestCreatedId = function(){
-  $.getJSON('http://localhost:8080/__admin/mappings', function(mappingsData) {
+  $.getJSON('http://' + host + ':' + port + '/__admin/mappings', function(mappingsData) {
     $('#editId').val(mappingsData.mappings[0].id);
   });
 }
@@ -228,9 +228,9 @@ var clearForm = function(){
   $('#requestType').val('PATH');
   $('#requestMethod').val('GET');
 
-  $("div").remove(".queryStringMatcher");
-  $("div").remove(".requestHeader");
-  $("div").remove(".responseHeader");
+  $('div').remove('.queryStringMatcher');
+  $('div').remove('.requestHeader');
+  $('div').remove('.responseHeader');
 
   $('#pathRow').after('<div class="row center queryStringMatcher" id="blankQueryString">' +
                       '    <div class="col-xs-4">' +
@@ -277,7 +277,7 @@ var clearForm = function(){
 
   $('#makeRequest').removeClass('btn-warning');
   $('#makeRequest').addClass('btn-success');
-  $('#makeRequest').text("Create");
-  $('#newForm').text("Clear");
+  $('#makeRequest').text('Create');
+  $('#newForm').text('Clear');
   $('#editId').val()
 }

@@ -12,7 +12,7 @@ $(document).ready(function() {
     var id = $(this).attr('href').split('/')[1];
 
     $.ajax({
-        url: 'http://localhost:8080/__admin/mappings/' + id,
+        url: 'http://' + host + ':' + port + '/__admin/mappings/' + id,
         type: 'DELETE',
         success: function(result) {
             buildMappingList();
@@ -92,7 +92,7 @@ $(document).ready(function() {
 });
 
 var buildMappingList = function(){
-  $.getJSON('http://localhost:8080/__admin/mappings', function(mappingsData) {
+  $.getJSON('http://' + host + ':' + port + '/__admin/mappings', function(mappingsData) {
     $('#mappings').empty();
 
     for(var i = 0; i < mappingsData.mappings.length; i++){
@@ -127,6 +127,6 @@ var buildMappingList = function(){
     }
   })
   .fail(function(error) {
-    $('#mappings').append('<div class="alert alert-danger">I\'m not able to communicate with Wiremock.  Is it setup?</div>');
+    $('#mappings').append('<div class="alert alert-danger">I\'m not able to communicate with Wiremock.  Please check your settings.</div>');
   })
 }

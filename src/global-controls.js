@@ -8,7 +8,7 @@ $(document).ready(function() {
     $('#mappingView').show();
   });
 
-  $(document).on('click', '#aboutControl', function(event){
+  $(document).on('click', '#settingsControl', function(event){
     $('#stubView').hide();
     $('#mappingView').hide();
     $('#aboutView').show();
