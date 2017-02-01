@@ -60,27 +60,31 @@ var buildPayload = function(path, pathType, method, priority, queryStringMatcher
   }
 
   if(requestPayload){
-    switch (requestPayload.charAt(0)) {
-      case '{':
-        payload.request.bodyPatterns = [{
-          "equalToJson": requestPayload
-        }];
-        break;
-      case '$':
-        payload.request.bodyPatterns = [{
-          "matchesJsonPath": requestPayload
-        }];
-        break;
-      case '<':
-        payload.request.bodyPatterns = [{
-          "equalToXml": requestPayload
-        }];
-        break;
-      case '/':
-        payload.request.bodyPatterns = [{
-          "matchesXPath": requestPayload
-        }];
-        break;
+    payload.request.bodyPatterns = [];
+
+    for(var i = 0; i < requestPayload.length; i++){
+      switch (requestPayload[i].charAt(0)) {
+        case '{':
+          payload.request.bodyPatterns.push({
+            "equalToJson": requestPayload[i]
+          });
+          break;
+        case '$':
+          payload.request.bodyPatterns.push({
+            "matchesJsonPath": requestPayload[i]
+          });
+          break;
+        case '<':
+          payload.request.bodyPatterns.push({
+            "equalToXml": requestPayload[i]
+          });
+          break;
+        case '/':
+          payload.request.bodyPatterns.push({
+            "matchesXPath": requestPayload[i]
+          });
+          break;
+      }
     }
   }
 

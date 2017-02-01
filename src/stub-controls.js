@@ -5,7 +5,7 @@ $(document).ready(function() {
       var method = $('#requestMethod').val();
       var requestHeaders = generateRequestHeadersArray();
       var queryString = generateQueryStringArray();
-      var payload = $('#requestPayload').val();
+      var payload = generateRequestPayloadArray();
       var statusCode = $('#statusCode').val();
       var priority = $('#priority').val();
       var responseHeaders = generateResponseHeadersArray();
@@ -94,6 +94,25 @@ $(document).ready(function() {
 
       currentNewEntry.after(newQueryOptions);
       currentNewEntry.removeAttr('id');
+    });
+
+    $(document).on('click', '.requestPayload a', function(event){
+      event.preventDefault();
+
+      $(this).parent().parent().remove();
+    });
+
+    $(document).on('focus', '#blankRequestPayload textarea', function(event){
+      $('#blankRequestPayload textarea').after('<a href="#" class="delete glyphicon glyphicon-remove"></a>');
+
+      var newRequestOption = '<div class="row requestPayload" id="blankRequestPayload">' +
+                             '  <div class="col-xs-12" style="text-align: right">' +
+                             '    <textarea rows="8" cols="72" placeholder="Request payload"></textarea>' +
+                             '  </div>' +
+                             '</div>';
+
+      $('#blankRequestPayload').after(newRequestOption);
+      $('#blankRequestPayload').removeAttr('id');
     });
 
     $(document).on('click', '.responseHeader a', function(event){
@@ -234,6 +253,22 @@ var generateResponseHeadersArray = function(){
         'key': headers.eq(i).find('.key').val(),
         'value': headers.eq(i).find('.value').val()
       }
+
+      arrayCount++;
+    }
+  }
+
+  return arrayToReturn;
+};
+
+var generateRequestPayloadArray = function(){
+  var payloads = $('.requestPayload');
+  var arrayToReturn = [];
+  var arrayCount = 0;
+
+  for(var i = 0; i < payloads.length; i++){
+    if(payloads.eq(i).find('textarea').val().length !== 0){
+      arrayToReturn[arrayCount] = payloads.eq(i).find('textarea').val()
 
       arrayCount++;
     }

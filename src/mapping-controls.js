@@ -26,72 +26,76 @@ $(document).ready(function() {
     $('#mappingView').hide();
     $('#stubView').show();
 
-    var payload = JSON.parse($(this).parent().next().text());
+    $.getJSON(protocol + '://' + host + ':' + port + '/__admin/mappings/' + $(this).attr('href').split('/')[1], function(payload) {
 
-    if(payload.request.url){
-        $('#requestPath').val(payload.request.url);
-        $('#requestType').val('PATH');
-    } else if (payload.request.urlPattern){
-        $('#requestPath').val(payload.request.urlPattern);
-        $('#requestType').val('REGEX');
-    } else if (payload.request.urlPath){
-        $('#requestPath').val(payload.request.urlPath);
-        $('#requestType').val('PARTIAL');
-    }
-
-    $('#requestMethod').val(payload.request.method);
-    $('#priority').val(payload.priority);
-
-    for (var queryKey in payload.request.queryParameters) {
-      if (payload.request.queryParameters.hasOwnProperty(queryKey)) {
-        $('#blankQueryString .key').val(queryKey);
-        var subKey = Object.keys(payload.request.queryParameters[queryKey])[0];
-        $('#blankQueryString .matcher').val(subKey);
-        $('#blankQueryString .value').val(payload.request.queryParameters[queryKey][subKey]);
-        $('#blankQueryString input').focus();
+      if(payload.request.url){
+          $('#requestPath').val(payload.request.url);
+          $('#requestType').val('PATH');
+      } else if (payload.request.urlPattern){
+          $('#requestPath').val(payload.request.urlPattern);
+          $('#requestType').val('REGEX');
+      } else if (payload.request.urlPath){
+          $('#requestPath').val(payload.request.urlPath);
+          $('#requestType').val('PARTIAL');
       }
-    }
 
-    for (var requestKey in payload.request.headers) {
-      if (payload.request.headers.hasOwnProperty(requestKey)) {
-        $('#blankRequestHeader .key').val(requestKey);
-        var subKey = Object.keys(payload.request.headers[requestKey])[0];
-        $('#blankRequestHeader .matcher').val(subKey);
-        $('#blankRequestHeader .value').val(payload.request.headers[requestKey][subKey]);
-        $('#blankRequestHeader input').focus();
+      $('#requestMethod').val(payload.request.method);
+      $('#priority').val(payload.priority);
+
+      for (var queryKey in payload.request.queryParameters) {
+        if (payload.request.queryParameters.hasOwnProperty(queryKey)) {
+          $('#blankQueryString .key').val(queryKey);
+          var subKey = Object.keys(payload.request.queryParameters[queryKey])[0];
+          $('#blankQueryString .matcher').val(subKey);
+          $('#blankQueryString .value').val(payload.request.queryParameters[queryKey][subKey]);
+          $('#blankQueryString input').focus();
+        }
       }
-    }
 
-    if(typeof payload.request.bodyPatterns !== 'undefined'){
-
-      if(payload.request.bodyPatterns[0].equalToJson){
-          $('#requestPayload').val(payload.request.bodyPatterns[0].equalToJson);
-      } else if (payload.request.bodyPatterns[0].matchesJsonPath){
-          $('#requestPayload').val(payload.request.bodyPatterns[0].matchesJsonPath);
-      } else if (payload.request.bodyPatterns[0].equalToXml){
-          $('#requestPayload').val(payload.request.bodyPatterns[0].equalToXml);
-      } else if (payload.request.bodyPatterns[0].matchesXPath){
-          $('#requestPayload').val(payload.request.bodyPatterns[0].matchesXPath);
+      for (var requestKey in payload.request.headers) {
+        if (payload.request.headers.hasOwnProperty(requestKey)) {
+          $('#blankRequestHeader .key').val(requestKey);
+          var subKey = Object.keys(payload.request.headers[requestKey])[0];
+          $('#blankRequestHeader .matcher').val(subKey);
+          $('#blankRequestHeader .value').val(payload.request.headers[requestKey][subKey]);
+          $('#blankRequestHeader input').focus();
+        }
       }
-    }
 
-    $('#statusCode').val(payload.response.status);
+      if(typeof payload.request.bodyPatterns !== 'undefined'){
+        for(var i = 0; i < payload.request.bodyPatterns.length; i++){
+          if(payload.request.bodyPatterns[i].equalToJson){
+              $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].equalToJson);
+          } else if (payload.request.bodyPatterns[i].matchesJsonPath){
+              $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].matchesJsonPath);
+          } else if (payload.request.bodyPatterns[i].equalToXml){
+              $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].equalToXml);
+          } else if (payload.request.bodyPatterns[i].matchesXPath){
+              $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].matchesXPath);
+          }
 
-    for (var responseKey in payload.response.headers) {
-      if (payload.response.headers.hasOwnProperty(responseKey)) {
-        $('#blankResponseHeader .key').val(responseKey);
-        $('#blankResponseHeader .value').val(payload.response.headers[responseKey]);
-        $('#blankResponseHeader input').focus();
+          $('#blankRequestPayload textarea').focus();
+        }
       }
-    }
 
-    $('#responsePayload').val(payload.response.body);
+      $('#statusCode').val(payload.response.status);
 
-    $('#editId').val(payload.id);
-    $('#makeRequest').text('Update');
-    $('#makeRequest').removeClass('btn-success');
-    $('#makeRequest').addClass('btn-warning');
-    $('#newForm').text('Create new stub');
+      for (var responseKey in payload.response.headers) {
+        if (payload.response.headers.hasOwnProperty(responseKey)) {
+          $('#blankResponseHeader .key').val(responseKey);
+          $('#blankResponseHeader .value').val(payload.response.headers[responseKey]);
+          $('#blankResponseHeader input').focus();
+        }
+      }
+
+      $('#responsePayload').val(payload.response.body);
+
+      $('#editId').val(payload.id);
+      $('#makeRequest').text('Update');
+      $('#makeRequest').removeClass('btn-success');
+      $('#makeRequest').addClass('btn-warning');
+      $('#newForm').text('Create new stub');
+    });
   });
 
 });
@@ -121,14 +125,13 @@ var buildMappingList = function(){
                             '   <div class="col-xs-2">' + mapping.response.status +
                             '   </div>' +
                             ' </div>' +
-                            ' <div class="col-xs-2"><a href="#" class="editMapping glyphicon glyphicon-pencil"></a> <a href="#/' + mapping.id + '" class="deleteMapping glyphicon glyphicon-remove"></a>' +
+                            ' <div class="col-xs-2"><a href="#/' + mapping.id + '" class="editMapping glyphicon glyphicon-pencil"></a> <a href="#/' + mapping.id + '" class="deleteMapping glyphicon glyphicon-remove"></a>' +
                             '</div>' +
                             '<div class="row">' +
                             ' <div class="col-xs-12">' +
-                            '   <div class="mappingDetails" style="display: none"><pre style="text-align: left">' + JSON.stringify(mapping, null, 2) + '</pre></div>' +
+                            '   <div class="mappingDetails" style="display: none"><pre style="text-align: left">' + JSON.stringify(mapping, null, 2).replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre></div>' +
                             ' </div>' +
                             '</div>');
-
     }
   })
   .fail(function(error) {

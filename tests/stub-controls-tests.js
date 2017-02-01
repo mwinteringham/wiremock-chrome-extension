@@ -94,8 +94,26 @@ describe('Wiremock extension - stub view controls', function(){
     done();
   });
 
-  it('should have a text box to add a payload matcher', function(done){
-    expect(dom.$('#requestPayload').length).to.equal(1);
+  it('should have a text box to add a request payload matcher', function(done){
+    expect(dom.$('.requestPayload textarea').length).to.equal(1);
+
+    done();
+  });
+
+  it('should create an additional request payload matcher', function(done){
+    dom.$('.requestPayload textarea').focus();
+
+    expect(dom.$('.requestPayload').length).to.equal(2);
+
+    done();
+  });
+
+  it('should delete a request payload matcher when clicking on the delete button', function(done){
+    dom.$('.requestPayload textarea').focus();
+
+    dom.$('.requestPayload a')[0].click();
+    expect(dom.$('.requestPayload').length).to.equal(1);
+    expect(dom.$('.requestPayload a').length).to.equal(0);
 
     done();
   });
@@ -237,7 +255,17 @@ describe('Wiremock stub integration check', function(){
       ]
     });
 
-    dom.$('#requestPayload').val(generatedPayload);
+    dom.$('.requestPayload textarea').val(generatedPayload)
+
+    dom.$('#blankRequestPayload textarea').focus();
+
+    var xmlPath = "<total_results>4</total_results>" +
+                   "<array_result>" +
+                   "<result>1</result>" +
+                   "<result>2</result>" +
+                   "<array_result>";
+
+    dom.$('.requestPayload textarea').eq(1).val(xmlPath)
 
     dom.$('#statusCode').val('200');
 
@@ -274,6 +302,7 @@ describe('Wiremock stub integration check', function(){
         expect(body.request.headers['key1']['equalTo']).to.equal('value1');
         expect(body.request.headers['key2']['matches']).to.equal('value2');
         expect(body.request.bodyPatterns[0].equalToJson).to.deep.equal(generatedPayload);
+        expect(body.request.bodyPatterns[1].equalToXml).to.equal(xmlPath);
         expect(body.response.status).to.equal('200');
         expect(body.response.headers['key1']).to.equal('value1');
         expect(body.response.headers['key2']).to.equal('value2');

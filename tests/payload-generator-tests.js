@@ -120,7 +120,7 @@ describe('Generate payload function', function(){
       ]
     });
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], generatedPayload, 200, [], '', function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], [generatedPayload], 200, [], '', function(payload){
       expect(payload.request.bodyPatterns[0].equalToJson).to.deep.equal(generatedPayload);
     });
 
@@ -130,7 +130,7 @@ describe('Generate payload function', function(){
   it('should generate a matchesJsonPath payload when provided a JSON path', function(done){
     var jsonPath = "$.things[?(@.name == 'RequiredThing')]";
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], jsonPath, 200, [], '', function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], [jsonPath], 200, [], '', function(payload){
       expect(payload.request.bodyPatterns[0].matchesJsonPath).to.equal(jsonPath);
     });
 
@@ -144,7 +144,7 @@ describe('Generate payload function', function(){
                    "<result>2</result>" +
                    "<array_result>";
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], xmlPath, 200, [], '', function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], [xmlPath], 200, [], '', function(payload){
       expect(payload.request.bodyPatterns[0].equalToXml).to.equal(xmlPath);
     });
 
@@ -154,12 +154,41 @@ describe('Generate payload function', function(){
   it('should generate a matchesXPath payload when provided an Xpath', function(done){
     var xPath = "/todo-list[count(todo-item) = 3]"
 
-    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], xPath, 200, [], '', function(payload){
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], [xPath], 200, [], '', function(payload){
       expect(payload.request.bodyPatterns[0].matchesXPath).to.equal(xPath);
     });
 
     done();
   });
+
+  it('should be able to accept multiple request payloads', function(done){
+    var generatedPayload = JSON.stringify({
+      "total_results": 4,
+      "array_result": [
+        {
+          "result": 1
+        },{
+          "result": 2
+        }
+      ]
+    });
+    var jsonPath = "$.things[?(@.name == 'RequiredThing')]";
+    var xmlPath = "<total_results>4</total_results>" +
+                   "<array_result>" +
+                   "<result>1</result>" +
+                   "<result>2</result>" +
+                   "<array_result>";
+    var xPath = "/todo-list[count(todo-item) = 3]"
+
+    dom.buildPayload('/thing', 'PATH', 'POST', 1, [], [], [generatedPayload, jsonPath, xmlPath, xPath], 200, [], '', function(payload){
+      expect(payload.request.bodyPatterns[0].equalToJson).to.deep.equal(generatedPayload);
+      expect(payload.request.bodyPatterns[1].matchesJsonPath).to.equal(jsonPath);
+      expect(payload.request.bodyPatterns[2].equalToXml).to.equal(xmlPath);
+      expect(payload.request.bodyPatterns[3].matchesXPath).to.equal(xPath);
+    });
+
+    done();
+  })
 
   it('should generate a response status code when provided a status code', function(done){
     var statusCode = 200;

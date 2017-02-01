@@ -121,7 +121,10 @@ describe('Wiremock extension - mapping view controls', function(){
         expect(headerStringValues[3]).to.equal('135');
 
         // Request body matcher value
-        expect(dom.$('#requestPayload').val()).to.equal('{\n \"body\":\"matcher\"\n}');
+        var requestPayloads = dom.$('#form > .requestPayload textarea').map(function(){return dom.$(this).val();}).get();
+
+        expect(requestPayloads[0]).to.equal('{\n \"body\":\"matcher\"\n}');
+        expect(requestPayloads[1]).to.equal('<total_results>4</total_results>');
 
         // Response values
         expect(dom.$('#statusCode').val()).to.equal('200');

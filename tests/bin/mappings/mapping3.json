@@ -36,6 +36,8 @@
       "equalToJson": "{\n \"body\":\"matcher\"\n}",
       "ignoreArrayOrder": false,
       "ignoreExtraElements": false
+    },{
+      "equalToXml": "<total_results>4</total_results>"
     }]
   },
   "response": {
