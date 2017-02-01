@@ -31,6 +31,27 @@ $(document).ready(function() {
                    });
     });
 
+    $(document).on('input', '.requestPayload textarea', function(event){
+      if($(this).val().length > 0){
+        switch ($(this).val().charAt(0)) {
+          case '{':
+            $(this).parent().find('p').text('EqualToJson');
+            break;
+          case '$':
+            $(this).parent().find('p').text('MatchesJsonPath');
+            break;
+          case '<':
+            $(this).parent().find('p').text('EqualToXml');
+            break;
+          case '/':
+            $(this).parent().find('p').text('MatchesXPath');
+            break;
+        }
+      } else {
+        $(this).parent().find('p').text('');
+      }
+    });
+
     $(document).on('click', '.requestHeader a', function(event){
       event.preventDefault();
 
@@ -108,6 +129,7 @@ $(document).ready(function() {
       var newRequestOption = '<div class="row requestPayload" id="blankRequestPayload">' +
                              '  <div class="col-xs-12" style="text-align: right">' +
                              '    <textarea rows="8" cols="72" placeholder="Request payload"></textarea>' +
+                             '    <p class="predicate"></p>' +
                              '  </div>' +
                              '</div>';
 
@@ -286,6 +308,7 @@ var clearForm = function(){
 
   $('div').remove('.queryStringMatcher');
   $('div').remove('.requestHeader');
+  $('div').remove('.requestPayload');
   $('div').remove('.responseHeader');
 
   $('#pathRow').after('<div class="row center queryStringMatcher" id="blankQueryString">' +
@@ -320,7 +343,14 @@ var clearForm = function(){
                                '    <div class="col-xs-4">' +
                                '      <input type="text" class="value" placeholder="Header value" />' +
                                '    </div>' +
-                               '  </div>')
+                               '  </div>');
+
+  $('#blankRequestHeader').after('<div class="row requestPayload" id="blankRequestPayload">' +
+                                 '  <div class="col-xs-12" style="text-align: right">' +
+                                 '    <textarea rows="8" cols="72" placeholder="Request payload"></textarea>' +
+                                 '    <p class="predicate"></p>' +
+                                 '  </div>' +
+                                 '</div>')
 
   $('#statusRow').after('<div class="row center responseHeader" id="blankResponseHeader">' +
                         '    <div class="col-xs-5">' +

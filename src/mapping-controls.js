@@ -66,12 +66,16 @@ $(document).ready(function() {
         for(var i = 0; i < payload.request.bodyPatterns.length; i++){
           if(payload.request.bodyPatterns[i].equalToJson){
               $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].equalToJson);
+              $('#blankRequestPayload .predicate').text('EqualToJson');
           } else if (payload.request.bodyPatterns[i].matchesJsonPath){
               $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].matchesJsonPath);
+              $('#blankRequestPayload .predicate').text('MatchesJsonPath');
           } else if (payload.request.bodyPatterns[i].equalToXml){
               $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].equalToXml);
+              $('#blankRequestPayload .predicate').text('EqualToXml');
           } else if (payload.request.bodyPatterns[i].matchesXPath){
               $('#blankRequestPayload textarea').val(payload.request.bodyPatterns[i].matchesXPath);
+              $('#blankRequestPayload .predicate').text('MatchesXPath');
           }
 
           $('#blankRequestPayload textarea').focus();
