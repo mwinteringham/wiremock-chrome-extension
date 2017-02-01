@@ -141,6 +141,13 @@ var postToMappingsNew = function(payload){
         $('#newForm').text('Create new stub');
         $('#status').text('Stub created').delay(5000).fadeOut();
       }
+  })
+  .fail(function() {
+    $('#status').text('An error occurred contacting Wiremock');
+
+    setTimeout(function(){
+      $('#status').fadeOut(1000);
+    }, 5000);
   });
 };
 
@@ -153,12 +160,26 @@ var postMappingsToEdit = function(id, payload){
       success: function (response) {
         $('#status').text('Stub updated!');
       }
+  })
+  .fail(function() {
+    $('#status').text('An error occurred contacting Wiremock');
+
+    setTimeout(function(){
+      $('#status').fadeOut(1000);
+    }, 5000);
   });
 };
 
 var getLatestCreatedId = function(){
   $.getJSON(protocol + '://' + host + ':' + port + '/__admin/mappings', function(mappingsData) {
     $('#editId').val(mappingsData.mappings[0].id);
+  })
+  .fail(function() {
+    $('#status').text('An error occurred contacting Wiremock');
+
+    setTimeout(function(){
+      $('#status').fadeOut(1000);
+    }, 5000);
   });
 }
 
