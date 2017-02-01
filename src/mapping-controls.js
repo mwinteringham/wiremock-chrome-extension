@@ -12,7 +12,7 @@ $(document).ready(function() {
     var id = $(this).attr('href').split('/')[1];
 
     $.ajax({
-        url: 'http://' + host + ':' + port + '/__admin/mappings/' + id,
+        url: protocol + '://' + host + ':' + port + '/__admin/mappings/' + id,
         type: 'DELETE',
         success: function(result) {
             buildMappingList();
@@ -62,14 +62,17 @@ $(document).ready(function() {
       }
     }
 
-    if(payload.request.bodyPatterns[0].equalToJson){
-        $('#requestPayload').val(payload.request.bodyPatterns[0].equalToJson);
-    } else if (payload.request.bodyPatterns[0].matchesJsonPath){
-        $('#requestPayload').val(payload.request.bodyPatterns[0].matchesJsonPath);
-    } else if (payload.request.bodyPatterns[0].equalToXml){
-        $('#requestPayload').val(payload.request.bodyPatterns[0].equalToXml);
-    } else if (payload.request.bodyPatterns[0].matchesXPath){
-        $('#requestPayload').val(payload.request.bodyPatterns[0].matchesXPath);
+    if(typeof payload.request.bodyPatterns !== 'undefined'){
+      
+      if(payload.request.bodyPatterns[0].equalToJson){
+          $('#requestPayload').val(payload.request.bodyPatterns[0].equalToJson);
+      } else if (payload.request.bodyPatterns[0].matchesJsonPath){
+          $('#requestPayload').val(payload.request.bodyPatterns[0].matchesJsonPath);
+      } else if (payload.request.bodyPatterns[0].equalToXml){
+          $('#requestPayload').val(payload.request.bodyPatterns[0].equalToXml);
+      } else if (payload.request.bodyPatterns[0].matchesXPath){
+          $('#requestPayload').val(payload.request.bodyPatterns[0].matchesXPath);
+      }
     }
 
     $('#statusCode').val(payload.response.status);
@@ -92,7 +95,7 @@ $(document).ready(function() {
 });
 
 var buildMappingList = function(){
-  $.getJSON('http://' + host + ':' + port + '/__admin/mappings', function(mappingsData) {
+  $.getJSON(protocol + '://' + host + ':' + port + '/__admin/mappings', function(mappingsData) {
     $('#mappings').empty();
 
     for(var i = 0; i < mappingsData.mappings.length; i++){
@@ -109,14 +112,14 @@ var buildMappingList = function(){
 
       $('#mappings').append('<div class="row mapping">' +
                             ' <div class="mappingTitle">' +
-                            '   <div class="col-xs-3">' + mapping.request.method +
+                            '   <div class="col-xs-2">' + mapping.request.method +
                             '   </div>' +
-                            '   <div class="col-xs-3">' + url +
+                            '   <div class="col-xs-6">' + url +
                             '   </div>' +
-                            '   <div class="col-xs-3">' + mapping.response.status +
+                            '   <div class="col-xs-2">' + mapping.response.status +
                             '   </div>' +
                             ' </div>' +
-                            ' <div class="col-xs-3"><a href="#" class="editMapping glyphicon glyphicon-pencil"></a> <a href="#/' + mapping.id + '" class="deleteMapping glyphicon glyphicon-remove"></a>' +
+                            ' <div class="col-xs-2"><a href="#" class="editMapping glyphicon glyphicon-pencil"></a> <a href="#/' + mapping.id + '" class="deleteMapping glyphicon glyphicon-remove"></a>' +
                             '</div>' +
                             '<div class="row">' +
                             ' <div class="col-xs-12">' +

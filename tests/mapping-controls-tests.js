@@ -39,7 +39,7 @@ describe('Wiremock extension - mapping view controls', function(){
 
   it('should hide JSON details for a mapping when clicking twice on a mapping entry', function(done){
     this.timeout(3000);
-    
+
     dom.$('#mappingControl').click();
 
     setTimeout(function(){

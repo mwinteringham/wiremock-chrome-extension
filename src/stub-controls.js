@@ -129,7 +129,7 @@ $(document).ready(function() {
 
 var postToMappingsNew = function(payload){
   $.ajax({
-      url: 'http://' + host + ':' + port + '/__admin/mappings/new',
+      url: protocol + '://' + host + ':' + port + '/__admin/mappings/new',
       type: 'POST',
       ContentType: 'application/json; charset=UTF-8',
       data: JSON.stringify(payload),
@@ -146,7 +146,7 @@ var postToMappingsNew = function(payload){
 
 var postMappingsToEdit = function(id, payload){
   $.ajax({
-      url: 'http://' + host + ':' + port + '/__admin/mappings/' + id,
+      url: protocol + '://' + host + ':' + port + '/__admin/mappings/' + id,
       type: 'PUT',
       ContentType: 'application/json; charset=UTF-8',
       data: JSON.stringify(payload),
@@ -157,7 +157,7 @@ var postMappingsToEdit = function(id, payload){
 };
 
 var getLatestCreatedId = function(){
-  $.getJSON('http://' + host + ':' + port + '/__admin/mappings', function(mappingsData) {
+  $.getJSON(protocol + '://' + host + ':' + port + '/__admin/mappings', function(mappingsData) {
     $('#editId').val(mappingsData.mappings[0].id);
   });
 }
@@ -270,6 +270,7 @@ var clearForm = function(){
                         '    <div class="col-xs-5">' +
                         '      <input type="text" class="key" placeholder="Header key"/>' +
                         '    </div>' +
+                        '    <div class="col-xs-1"></div>' +
                         '    <div class="col-xs-5">' +
                         '      <input type="text" class="value" placeholder="Header value"/>' +
                         '    </div>' +
