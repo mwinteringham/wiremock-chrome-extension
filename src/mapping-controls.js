@@ -63,7 +63,7 @@ $(document).ready(function() {
     }
 
     if(typeof payload.request.bodyPatterns !== 'undefined'){
-      
+
       if(payload.request.bodyPatterns[0].equalToJson){
           $('#requestPayload').val(payload.request.bodyPatterns[0].equalToJson);
       } else if (payload.request.bodyPatterns[0].matchesJsonPath){
@@ -88,8 +88,10 @@ $(document).ready(function() {
     $('#responsePayload').val(payload.response.body);
 
     $('#editId').val(payload.id);
-    $('#makeRequest').val("Update");
-    $('#newForm').val("New stub");
+    $('#makeRequest').text('Update');
+    $('#makeRequest').removeClass('btn-success');
+    $('#makeRequest').addClass('btn-warning');
+    $('#newForm').text('Create new stub');
   });
 
 });
