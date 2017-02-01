@@ -1,15 +1,12 @@
-var host, port;
+var host = 'localhost',
+    port = '8080';
 
 chrome.storage.local.get(['host', 'port'], function(item){
-  if(Object.getOwnPropertyNames(item).length === 0){
-    host = 'localhost';
-  } else {
+  if(Object.getOwnPropertyNames(item).length !== 0){
     host = item.host;
   }
 
-  if(Object.getOwnPropertyNames(item).length === 0){
-    port = '8080';
-  } else {
+  if(Object.getOwnPropertyNames(item).length !== 0){
     port = item.port;
   }
 });
