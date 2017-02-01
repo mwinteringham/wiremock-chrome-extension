@@ -132,8 +132,8 @@ describe('Wiremock extension - mapping view controls', function(){
 
         expect(dom.$('#responsePayload').val()).to.equal('{\n \"response\":\"body\"\n}');
 
-        expect(dom.$('#makeRequest').val()).to.equal('Update');
-        expect(dom.$('#newForm').val()).to.equal('New stub');
+        expect(dom.$('#makeRequest').text()).to.equal('Update');
+        expect(dom.$('#newForm').text()).to.equal('Create new stub');
         expect(dom.$('#editId').val()).to.equal(id);
 
         done();
